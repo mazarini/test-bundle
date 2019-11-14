@@ -4,7 +4,8 @@
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Debug\Debug;
+use Symfony\Component\Debug\Debug4;
+use Symfony\Component\ErrorHandler\Debug5;
 
 if (false === in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
     echo 'Warning: The console should be invoked via the CLI version of PHP, not the '.\PHP_SAPI.' SAPI'.\PHP_EOL;
@@ -32,8 +33,10 @@ require dirname(__DIR__).'/config/bootstrap.php';
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 
-    if (class_exists(Debug::class)) {
-        Debug::enable();
+    if (class_exists(Debug4::class)) {
+        Debug4::enable();
+    } elseif (class_exists(Debug5::class)) {
+        Debug5::enable();
     }
 }
 

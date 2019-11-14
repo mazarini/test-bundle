@@ -25,7 +25,6 @@ matrix:
       env: CONTROL="YES"
            INSTALL="install"
 #   PHP version
-    - php: 7.1.3
     - php: 7.2
       env: INSTALL="install"
     - php: 7.3
@@ -69,7 +68,6 @@ before_install:
   - '[[ "$SYMFONY" == "" ]] || composer config extra.symfony.require $SYMFONY'
   - '[[ "$STABILITY" == "" ]] || composer config minimum-stability $STABILITY'
 
-
 install:
   - '[[ "$CONTROL" == "" ]] || composer global require friendsofphp/php-cs-fixer symfony/flex sensiolabs/security-checker friendsoftwig/twigcs phpstan/phpstan-symfony'
   - composer $INSTALL $SYMFONY_PHPUNIT_COMPOSER_OPTION
@@ -87,12 +85,3 @@ script:
   - '[[ "$CONTROL" == "" ]] || phpstan analyse lib src tests --level max'
   - '[[ "$CONTROL" == "" ]] || bin/console lint:yaml config lib/Resources/config phpstan.neon.dist .travis.yml'
   - '[[ "$CONTROL" == "" ]] || composer -vv validate --strict'
-
-
-
-
-
-
-
-
-
