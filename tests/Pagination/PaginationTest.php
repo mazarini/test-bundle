@@ -25,20 +25,40 @@ use PHPUnit\Framework\TestCase;
 class PaginationTest extends TestCase
 {
     /**
-     * testPages.
+     * testNoPage.
      */
-    public function testPages(): void
+    public function testNoPage(): void
     {
         $pagination = new Pagination(1, 0, 10);
         $this->assertSame($pagination->getLastPage(), 0);
         $this->assertSame($pagination->getCurrentPage(), 0);
         $this->assertTrue(!$pagination->HasToPaginate());
+        $this->assertTrue(!$pagination->HasPreviousPage());
+        $this->assertTrue(!$pagination->HasNextPage());
+        $this->assertSame(\count($pagination->GetEntities()), 0);
+    }
 
-        $pagination = new Pagination(0, 1, 10);
+    /**
+     * testOnePage.
+     *
+     * @dataProvider provideOnePageCount
+     */
+    public function testOnePage(int $currentPage, int $count): void
+    {
+        $pagination = new Pagination($currentPage, $count, 10);
         $this->assertSame($pagination->getLastPage(), 1);
         $this->assertSame($pagination->getCurrentPage(), 1);
         $this->assertTrue(!$pagination->HasToPaginate());
+        $this->assertTrue(!$pagination->HasPreviousPage());
+        $this->assertTrue(!$pagination->HasNextPage());
+        $this->assertSame(\count($pagination->GetEntities()), $count);
+    }
 
+    /**
+     * testPages.
+     */
+    public function testPages(): void
+    {
         $pagination = new Pagination(3, 20, 10);
         $this->assertSame($pagination->getLastPage(), 2);
         $this->assertSame($pagination->getCurrentPage(), 2);
@@ -72,9 +92,6 @@ class PaginationTest extends TestCase
 
     public function testEntitiesCount(): void
     {
-        $pagination = new Pagination(1, 0, 10);
-        $this->assertSame(\count($pagination->GetEntities()), 0);
-
         $pagination = new Pagination(1, 25, 10);
         $this->assertSame(\count($pagination->GetEntities()), 10);
 
@@ -83,5 +100,10 @@ class PaginationTest extends TestCase
 
         $pagination = new Pagination(3, 25, 10);
         $this->assertSame(\count($pagination->GetEntities()), 5);
+    }
+
+    public function provideOnePageCount(): array
+    {
+        return [[0, 1], [1, 5], [2, 10]];
     }
 }
