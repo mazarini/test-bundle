@@ -19,32 +19,32 @@
 
 namespace App\Tests\Pagination;
 
-use Mazarini\TestBundle\Pagination\Fake;
+use Mazarini\TestBundle\Fake\Pagination;
 use PHPUnit\Framework\TestCase;
 
 class PaginationTest extends TestCase
 {
     /**
-     * testNewEntity.
+     * testPages.
      */
     public function testPages(): void
     {
-        $pagination = new Fake(1, 0, 10);
+        $pagination = new Pagination(1, 0, 10);
         $this->assertSame($pagination->getLastPage(), 0);
         $this->assertSame($pagination->getCurrentPage(), 0);
         $this->assertTrue(!$pagination->HasToPaginate());
 
-        $pagination = new Fake(0, 1, 10);
+        $pagination = new Pagination(0, 1, 10);
         $this->assertSame($pagination->getLastPage(), 1);
         $this->assertSame($pagination->getCurrentPage(), 1);
         $this->assertTrue(!$pagination->HasToPaginate());
 
-        $pagination = new Fake(3, 20, 10);
+        $pagination = new Pagination(3, 20, 10);
         $this->assertSame($pagination->getLastPage(), 2);
         $this->assertSame($pagination->getCurrentPage(), 2);
         $this->assertTrue($pagination->HasToPaginate());
 
-        $pagination = new Fake(1, 21, 10);
+        $pagination = new Pagination(1, 21, 10);
         $this->assertSame($pagination->getLastPage(), 3);
         $this->assertSame($pagination->getCurrentPage(), 1);
         $this->assertTrue($pagination->HasToPaginate());
@@ -52,11 +52,11 @@ class PaginationTest extends TestCase
 
     public function testNavigation(): void
     {
-        $pagination = new Fake(1, 50, 10);
+        $pagination = new Pagination(1, 50, 10);
         $this->assertTrue(!$pagination->HasPreviousPage());
         $this->assertTrue($pagination->HasNextPage());
 
-        $pagination = new Fake(3, 50, 10);
+        $pagination = new Pagination(3, 50, 10);
         $this->assertTrue($pagination->HasPreviousPage());
         $this->assertTrue($pagination->HasNextPage());
         $this->assertSame($pagination->getFirstPage(), 1);
@@ -65,23 +65,23 @@ class PaginationTest extends TestCase
         $this->assertSame($pagination->getNextPage(), 4);
         $this->assertSame($pagination->getLastPage(), 5);
 
-        $pagination = new Fake(5, 50, 10);
+        $pagination = new Pagination(5, 50, 10);
         $this->assertTrue($pagination->HasPreviousPage());
         $this->assertTrue(!$pagination->HasNextPage());
     }
 
-    public function testEntity(): void
+    public function testEntitiesCount(): void
     {
-        $pagination = new Fake(1, 0, 10);
+        $pagination = new Pagination(1, 0, 10);
         $this->assertSame(\count($pagination->GetEntities()), 0);
 
-        $pagination = new Fake(1, 25, 10);
+        $pagination = new Pagination(1, 25, 10);
         $this->assertSame(\count($pagination->GetEntities()), 10);
 
-        $pagination = new Fake(1, 25, 10);
+        $pagination = new Pagination(2, 25, 10);
         $this->assertSame(\count($pagination->GetEntities()), 10);
 
-        $pagination = new Fake(3, 25, 10);
+        $pagination = new Pagination(3, 25, 10);
         $this->assertSame(\count($pagination->GetEntities()), 5);
     }
 }

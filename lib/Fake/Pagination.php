@@ -17,14 +17,13 @@
  * You should have received a copy of the GNU General Public License
  */
 
-namespace Mazarini\TestBundle\Pagination;
+namespace Mazarini\TestBundle\Fake;
 
-use Mazarini\TestBundle\Entity\Fake as Entity;
 use Mazarini\ToolsBundle\Pagination\EntitiesTrait;
 use Mazarini\ToolsBundle\Pagination\PageTrait;
 use Mazarini\ToolsBundle\Pagination\PaginationInterface;
 
-class Fake implements PaginationInterface
+class Pagination implements PaginationInterface
 {
     protected const PAGE_SIZE = 10;
     /**
@@ -65,8 +64,7 @@ class Fake implements PaginationInterface
 
         $entities = [];
         for ($i = $start; $i < $end; ++$i) {
-            $entity = new Entity();
-            $entities[] = $entity->setId($i);
+            $entities[] = new Entity($i);
         }
 
         return $entities;

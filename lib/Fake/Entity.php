@@ -17,17 +17,17 @@
  * You should have received a copy of the GNU General Public License
  */
 
-namespace Mazarini\TestBundle\Entity;
+namespace Mazarini\TestBundle\Fake;
 
-use Mazarini\ToolsBundle\Entity\Entity;
+use Mazarini\ToolsBundle\Entity\Entity as BaseEntity;
 
-class Fake extends Entity
+class Entity extends BaseEntity
 {
-    public function setId($id): self
+    public function __construct(?int $id = null)
     {
-        $this->id = $id;
-
-        return $this;
+        if (null !== $id) {
+            $this->id = $id;
+        }
     }
 
     public function getCol1(): string
