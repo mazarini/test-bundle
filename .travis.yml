@@ -41,6 +41,9 @@ matrix:
     - php: 7.2
       env: SYMFONY="4.4.*"
            STABILITY="beta"
+    - php: 7.2
+      env: SYMFONY="5.0.*"
+           STABILITY="beta"
 #   Symfony dev version
     - php: 7.2
       env: SYMFONY="4.4.*"
