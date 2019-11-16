@@ -21,21 +21,17 @@ namespace Mazarini\TestBundle\Tool;
 
 class Folder
 {
-    private $testStep;
+    private $stepDir;
 
     /**
      * __construct.
      */
-    public function __construct(string $root = '')
+    public function __construct(string $stepDir = '')
     {
-        if ('' === $root) {
-            $this->testStep = \dirname(__DIR__, 2);
-        } else {
-            $this->testStep = $root;
+        if ('' === $stepDir) {
+            $stepDir = \dirname(__DIR__, 2).'/templates/step';
         }
-        if (false === mb_strpos($this->testStep, '/templates/')) {
-            $this->testStep .= '/templates/step';
-        }
+        $this->stepDir = $stepDir;
     }
 
     /**
@@ -43,7 +39,7 @@ class Folder
      */
     public function getSteps(): array
     {
-        $dirs = glob($this->testStep.'/??-*\.html\.twig');
+        $dirs = glob($this->stepDir.'/??-*\.html\.twig');
         $steps = [];
         if (\is_array($dirs)) {
             foreach ($dirs as $dir) {

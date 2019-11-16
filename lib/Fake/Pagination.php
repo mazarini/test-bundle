@@ -64,7 +64,7 @@ class Pagination implements PaginationInterface
 
         $entities = [];
         for ($i = $start; $i < $end; ++$i) {
-            $entities[] = new Entity($i);
+            $entities[$i] = new Entity($i);
         }
 
         return $entities;

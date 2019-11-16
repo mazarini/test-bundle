@@ -60,6 +60,8 @@ class StepController extends ControllerAbstract
 
     protected function InitUrl(): ControllerAbstract
     {
+        $this->addUrl('INDEX');
+
         return $this;
     }
 
