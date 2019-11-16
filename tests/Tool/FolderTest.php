@@ -17,32 +17,23 @@
  * You should have received a copy of the GNU General Public License
  */
 
-namespace App\Tests\Controller;
+namespace App\Tests\Tool;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
+use Mazarini\TestBundle\Tool\Folder;
+use PHPUnit\Framework\TestCase;
 
-class UrlControllerTest extends WebTestCase
+class FolderTest extends TestCase
 {
     /**
-     * @dataProvider getPublicUrls
+     * testNewEntity.
      */
-    public function testPublicUrls(string $url)
+    public function testSteps(): void
     {
-        $client = static::createClient();
-        $client->request('GET', $url);
-
-        $this->assertSame(
-            Response::HTTP_OK,
-            $client->getResponse()->getStatusCode(),
-            sprintf('The %s public URL loads correctly.', $url)
-        );
-    }
-
-    public function getPublicUrls(): \Traversable
-    {
-        yield [''];
-        yield ['/'];
-        yield ['/Index.html'];
+        $folder = new Folder();
+        $steps = $folder->getSteps();
+        $this->assertTrue(\count($steps) > 0);
+        $key = array_key_first($steps);
+        $this->assertSame($key.'.html.twig', mb_substr($steps[$key], 3));
+        $this->assertTrue(file_exists('templates/step/'.$steps[$key]));
     }
 }

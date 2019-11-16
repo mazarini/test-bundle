@@ -24,26 +24,6 @@ use PHPUnit\Framework\TestCase;
 
 class EntityTest extends TestCase
 {
-    /**
-     * testNewEntity.
-     */
-    public function testNewEntity(): void
-    {
-        $entity = new Entity();
-        $this->assertSame($entity->getId(), 0);
-        $this->assertTrue($entity->isNew());
-    }
-
-    /**
-     * testEntity.
-     */
-    public function testExistingEntity(): void
-    {
-        $entity = new Entity(1);
-        $this->assertSame($entity->getId(), 1);
-        $this->assertTrue(!$entity->isNew());
-    }
-
     public function testGet(): void
     {
         $entity = new Entity(1);

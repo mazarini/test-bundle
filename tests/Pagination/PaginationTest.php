@@ -24,86 +24,30 @@ use PHPUnit\Framework\TestCase;
 
 class PaginationTest extends TestCase
 {
-    /**
-     * testNoPage.
-     */
-    public function testNoPage(): void
+    public function testZeroEntities(): void
     {
         $pagination = new Pagination(1, 0, 10);
-        $this->assertSame($pagination->getLastPage(), 0);
-        $this->assertSame($pagination->getCurrentPage(), 0);
-        $this->assertTrue(!$pagination->HasToPaginate());
-        $this->assertTrue(!$pagination->HasPreviousPage());
-        $this->assertTrue(!$pagination->HasNextPage());
         $this->assertSame(\count($pagination->GetEntities()), 0);
     }
 
     /**
      * testOnePage.
      *
-     * @dataProvider provideOnePageCount
+     * @dataProvider providePage
      */
-    public function testOnePage(int $currentPage, int $count): void
+    public function testEntitiesCount(int $current, int $count, int $first, int $last): void
     {
-        $pagination = new Pagination($currentPage, $count, 10);
-        $this->assertSame($pagination->getLastPage(), 1);
-        $this->assertSame($pagination->getCurrentPage(), 1);
-        $this->assertTrue(!$pagination->HasToPaginate());
-        $this->assertTrue(!$pagination->HasPreviousPage());
-        $this->assertTrue(!$pagination->HasNextPage());
-        $this->assertSame(\count($pagination->GetEntities()), $count);
+        $pagination = new Pagination($current, 25, 10);
+        $entities = $pagination->GetEntities();
+        $this->assertSame(\count($entities), $count);
+        $this->assertSame($entities[$first]->getId(), $first);
+        $this->assertSame($entities[$last]->getId(), $last);
     }
 
-    /**
-     * testPages.
-     */
-    public function testPages(): void
+    public function providePage(): \Traversable
     {
-        $pagination = new Pagination(3, 20, 10);
-        $this->assertSame($pagination->getLastPage(), 2);
-        $this->assertSame($pagination->getCurrentPage(), 2);
-        $this->assertTrue($pagination->HasToPaginate());
-
-        $pagination = new Pagination(1, 21, 10);
-        $this->assertSame($pagination->getLastPage(), 3);
-        $this->assertSame($pagination->getCurrentPage(), 1);
-        $this->assertTrue($pagination->HasToPaginate());
-    }
-
-    public function testNavigation(): void
-    {
-        $pagination = new Pagination(1, 50, 10);
-        $this->assertTrue(!$pagination->HasPreviousPage());
-        $this->assertTrue($pagination->HasNextPage());
-
-        $pagination = new Pagination(3, 50, 10);
-        $this->assertTrue($pagination->HasPreviousPage());
-        $this->assertTrue($pagination->HasNextPage());
-        $this->assertSame($pagination->getFirstPage(), 1);
-        $this->assertSame($pagination->getPreviousPage(), 2);
-        $this->assertSame($pagination->getCurrentPage(), 3);
-        $this->assertSame($pagination->getNextPage(), 4);
-        $this->assertSame($pagination->getLastPage(), 5);
-
-        $pagination = new Pagination(5, 50, 10);
-        $this->assertTrue($pagination->HasPreviousPage());
-        $this->assertTrue(!$pagination->HasNextPage());
-    }
-
-    public function testEntitiesCount(): void
-    {
-        $pagination = new Pagination(1, 25, 10);
-        $this->assertSame(\count($pagination->GetEntities()), 10);
-
-        $pagination = new Pagination(2, 25, 10);
-        $this->assertSame(\count($pagination->GetEntities()), 10);
-
-        $pagination = new Pagination(3, 25, 10);
-        $this->assertSame(\count($pagination->GetEntities()), 5);
-    }
-
-    public function provideOnePageCount(): array
-    {
-        return [[0, 1], [1, 5], [2, 10]];
+        yield [1, 10, 01, 10];
+        yield [2, 10, 11, 20];
+        yield [3, 05, 21, 25];
     }
 }
