@@ -1,6 +1,7 @@
 ###> local ###
 /var/*
 !var/data
+.php-version
 ###< local ###
 
 ###> symfony/framework-bundle ###
@@ -17,7 +18,3 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
-###> symfony/web-server-bundle ###
-/.web-server-pid
-###< symfony/web-server-bundle ###
