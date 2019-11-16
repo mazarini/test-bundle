@@ -35,6 +35,8 @@ class StepController extends ControllerAbstract
     {
         parent::__construct($requestStack, $href, $data);
         $this->parameters['symfony']['version'] = Kernel::VERSION;
+        $this->parameters['data'] = $this->data;
+        $this->parameters['href'] = $this->href;
     }
 
     /**
@@ -51,9 +53,11 @@ class StepController extends ControllerAbstract
         foreach ($steps as $name => $dummy) {
             $parameters['steps'][$name] = $this->generateUrl('step_index', ['step' => $name]);
         }
+        $parameters['step'] = $step;
         $parameters['steps'][$step] = '';
         $parameters['entity'] = new Entity(1);
         $parameters['pagination'] = new Pagination(3, 50, 10);
+        $this->data->setEntity($parameters['entity']);
 
         return $this->dataRender('step/'.$steps[$step], $parameters);
     }

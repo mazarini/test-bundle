@@ -9,10 +9,5 @@
 {% endblock %}
 
 {% block content %}
-	<ul>
-		<li>
-			Symfony :
-			{{ symfony.version }}
-		</li>
-	</ul>
+	{{ dump(data.pagination) }}
 {% endblock %}
