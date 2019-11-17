@@ -32,6 +32,9 @@
     "mazarini/package": {
         "version": "v1.0.4"
     },
+    "mazarini/tools-bundle": {
+        "version": "1.0.x-dev"
+    },
     "monolog/monolog": {
         "version": "1.25.1"
     },
