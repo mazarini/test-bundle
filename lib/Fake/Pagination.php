@@ -27,11 +27,6 @@ class Pagination implements PaginationInterface
 {
     protected const PAGE_SIZE = 10;
     /**
-     * var $entities array.
-     */
-    protected $result = [];
-
-    /**
      * var $count int.
      */
     protected $count = 0;
