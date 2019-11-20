@@ -9,5 +9,22 @@
 {% endblock %}
 
 {% block content %}
+
 	{{ dump(data.entity) }}
-{% endblock %}
+
+	<table>
+		<tr>
+			<th>Key</th>
+			<th>Item</th>
+		</tr>
+		{% embed '@MazariniTools/iterative.html.twig' with {'items':data.entity} %}
+			{% block item_container %}
+				<tr>
+					<td>{{ key }}</td>
+					<td>{{ item }}</td>
+				</tr>
+			{% endblock item_container %}
+		{% endembed %}
+		<table>
+
+		{% endblock %}

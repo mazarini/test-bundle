@@ -21,13 +21,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-3">
-						<div class="list-group">
-							{% for label, href in steps %}
-								<a href="{{ href }}" class="list-group-item list-group-item-action">
-									{{ label }}
-								</a>
-							{% endfor %}
-						</div>
+						{% include '@MazariniTest/step/menu.html.twig' with {'items': steps} %}
 					</div>
 					<div class="col-9">
 						<h1>

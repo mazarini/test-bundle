@@ -19,12 +19,14 @@
 
 namespace Mazarini\TestBundle\Fake;
 
-use Mazarini\ToolsBundle\Entity\Entity as BaseEntity;
-
-class Entity extends BaseEntity
+class Entity extends ArrayEntity
 {
     public function __construct(?int $id = null)
     {
+        parent::__construct();
+        for ($i = 1; $i < 10; ++$i) {
+            $this->_array_var_[] = 'Col'.$i;
+        }
         if (null !== $id) {
             $this->id = $id;
         }
