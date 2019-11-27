@@ -19,17 +19,20 @@
 
 namespace Mazarini\TestBundle\Fake;
 
-class Entity extends ArrayEntity
+use Mazarini\ToolsBundle\Collection\Property;
+use Mazarini\ToolsBundle\Entity\EntityInterface;
+use Mazarini\ToolsBundle\Entity\EntityTrait;
+
+class Entity extends Property implements EntityInterface
 {
+    use EntityTrait;
+
     public function __construct(?int $id = null)
     {
-        parent::__construct();
-        for ($i = 1; $i < 10; ++$i) {
-            $this->_array_var_[] = 'Col'.$i;
-        }
         if (null !== $id) {
             $this->id = $id;
         }
+        parent::__construct();
     }
 
     public function getCol1(): string

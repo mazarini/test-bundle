@@ -20,6 +20,7 @@
 namespace App\Tests\Pagination;
 
 use Mazarini\TestBundle\Fake\Pagination;
+use Mazarini\ToolsBundle\Collection\Collection;
 use PHPUnit\Framework\TestCase;
 
 class PaginationTest extends TestCase
@@ -27,7 +28,12 @@ class PaginationTest extends TestCase
     public function testZeroEntities(): void
     {
         $pagination = new Pagination(1, 0, 10);
-        $this->assertSame(\count($pagination->GetEntities()), 0);
+        $entities = $pagination->GetEntities();
+        if (is_a($entities, Collection::class)) {
+            $this->assertSame(\count($entities), 0);
+        } else {
+            $this->assertTrue(false);
+        }
     }
 
     /**
@@ -39,9 +45,13 @@ class PaginationTest extends TestCase
     {
         $pagination = new Pagination($current, 25, 10);
         $entities = $pagination->GetEntities();
-        $this->assertSame(\count($entities), $count);
-        $this->assertSame($entities[$first]->getId(), $first);
-        $this->assertSame($entities[$last]->getId(), $last);
+        if (is_a($entities, Collection::class)) {
+            $this->assertSame(\count($entities), $count);
+            $this->assertSame($entities[$first]->getId(), $first);
+            $this->assertSame($entities[$last]->getId(), $last);
+        } else {
+            $this->assertTrue(false);
+        }
     }
 
     public function providePage(): \Traversable

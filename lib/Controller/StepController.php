@@ -24,18 +24,21 @@ use Mazarini\TestBundle\Fake\Pagination;
 use Mazarini\TestBundle\Tool\Folder;
 use Mazarini\ToolsBundle\Controller\ControllerAbstract;
 use Mazarini\ToolsBundle\Data\Data;
-use Mazarini\ToolsBundle\Href\Href;
+use Mazarini\ToolsBundle\Href\Hrefs;
+use Mazarini\ToolsBundle\Href\Link;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/")
+ */
 class StepController extends ControllerAbstract
 {
-    public function __construct(RequestStack $requestStack, Href $href, Data $data)
+    public function __construct(RequestStack $requestStack, Hrefs $hrefs, Data $data)
     {
-        parent::__construct($requestStack, $href, $data);
+        parent::__construct($requestStack, $hrefs, $data);
         $this->parameters['symfony']['version'] = Kernel::VERSION;
-        $this->parameters['href'] = $this->href;
     }
 
     /**
@@ -60,19 +63,21 @@ class StepController extends ControllerAbstract
         return $this->dataRender('step/'.$steps[$step], $parameters);
     }
 
-    protected function InitUrl(): ControllerAbstract
+    protected function InitUrl(Data $data): ControllerAbstract
     {
-        $this->addUrl('INDEX');
+        $data->getHrefs()['current'] = new Link('');
+        $data->getHrefs()['disabled'] = new Link('#');
+        $this->addUrl($data->getHrefs(), 'INDEX');
 
         return $this;
     }
 
-    protected function addUrl(string $name, array $parameters = [], string $complement = null): ControllerAbstract
+    protected function addUrl(Hrefs $hrefs, string $name, array $parameters = [], string $complement = null): ControllerAbstract
     {
         if (null === $complement) {
             $complement = $name;
         }
-        $this->href->addHref($complement, '#'.$complement);
+        $hrefs->addLink($complement, '#'.$complement);
 
         return $this;
     }

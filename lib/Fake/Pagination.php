@@ -19,6 +19,7 @@
 
 namespace Mazarini\TestBundle\Fake;
 
+use Mazarini\ToolsBundle\Collection\Collection;
 use Mazarini\ToolsBundle\Pagination\EntitiesTrait;
 use Mazarini\ToolsBundle\Pagination\PageTrait;
 use Mazarini\ToolsBundle\Pagination\PaginationInterface;
@@ -45,10 +46,10 @@ class Pagination implements PaginationInterface
         $this->setEntities();
     }
 
-    public function getIterator(): array
+    public function getIterator(): \Traversable
     {
         if (0 === $this->count) {
-            return [];
+            return new Collection();
         }
 
         $start = ($this->currentPage - 1) * self::PAGE_SIZE + 1;
@@ -62,7 +63,7 @@ class Pagination implements PaginationInterface
             $entities[$i] = new Entity($i);
         }
 
-        return $entities;
+        return new Collection($entities);
     }
 
     public function count(): int
