@@ -44,9 +44,10 @@ class UrlControllerTest extends WebTestCase
         yield [''];
         yield ['/'];
         yield ['/Index.html'];
-        yield ['/Href.html'];
         yield ['/Entity.html'];
         yield ['/Entities.html'];
+        yield ['/Href.html'];
         yield ['/Pagination.html'];
+        yield ['/Data.html'];
     }
 }

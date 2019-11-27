@@ -30,15 +30,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/")
- */
 class StepController extends ControllerAbstract
 {
     public function __construct(RequestStack $requestStack, Hrefs $hrefs, Data $data)
     {
         parent::__construct($requestStack, $hrefs, $data);
         $this->parameters['symfony']['version'] = Kernel::VERSION;
+        $this->parameters['php']['version'] = PHP_VERSION;
+        $this->parameters['php']['extensions'] = get_loaded_extensions();
     }
 
     /**
