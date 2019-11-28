@@ -15,13 +15,13 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     Mazarini\TestBundle\:
         resource: '../../*'
-        exclude: '../../{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../../{DependencyInjection,Controller,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    Mazarini\TestBundle\Controller\:
-        resource: '../../../src/Controller'
-        tags: ['controller.service_arguments']
+#   Mazarini\TestBundle\Controller\:
+#       resource: '../../../src/Controller'
+#       tags: ['controller.service_arguments']
 
     Mazarini\TestBundle\Tool\Folder:
         arguments:
