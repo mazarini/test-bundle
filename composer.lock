@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34705e771d98e0ed0e10cce6a18df370",
+    "content-hash": "db070cee87c000f82a876ddadfbc3619",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -142,12 +142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mazarini/tools-bundle.git",
-                "reference": "3a95d18c7dc5fd7bf9121d7e46a3c8b251375af8"
+                "reference": "79ddbfb131492986ff3c1f91fc5be31de4d7e51d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/3a95d18c7dc5fd7bf9121d7e46a3c8b251375af8",
-                "reference": "3a95d18c7dc5fd7bf9121d7e46a3c8b251375af8",
+                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/79ddbfb131492986ff3c1f91fc5be31de4d7e51d",
+                "reference": "79ddbfb131492986ff3c1f91fc5be31de4d7e51d",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +199,7 @@
                 "symfony",
                 "toolset"
             ],
-            "time": "2019-11-27T16:48:54+00:00"
+            "time": "2019-11-28T20:52:07+00:00"
         },
         {
             "name": "symfony/flex",

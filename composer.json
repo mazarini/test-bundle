@@ -20,7 +20,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-mbstring": "*",
-        "mazarini/tools-bundle": "^1.0@dev",
+        "mazarini/tools-bundle": "^0.9|^1.0@dev",
         "symfony/flex": "^1.4"
     },
     "require-dev": {
