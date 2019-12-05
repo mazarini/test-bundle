@@ -67,6 +67,11 @@ class RepositoryTest extends TestCase
         $this->assertSame($entities[$last]->getId(), $last);
     }
 
+    /**
+     * provideCount.
+     *
+     * @return \Traversable<mixed,array>
+     */
     public function provideCount(): \Traversable
     {
         // [current,count]
@@ -75,6 +80,11 @@ class RepositoryTest extends TestCase
         yield [3, 05];
     }
 
+    /**
+     * provideId.
+     *
+     * @return \Traversable<mixed,array>
+     */
     public function provideId(): \Traversable
     {
         // [current,first,last]

@@ -40,12 +40,12 @@ class Repository
          * Start position
          * ie first id for test.
          */
-        $first = ($currentPage - 1) * $pageSize + 1;
+        $first = (int) ($currentPage - 1) * $pageSize + 1;
         /**
          * Last position
          * ie last id for test.
          */
-        $last = min($first + $pageSize - 1, $totalCount);
+        $last = (int) min($first + $pageSize - 1, $totalCount);
         /**
          * Create fake result remplacing database acces.
          */

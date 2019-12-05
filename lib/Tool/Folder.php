@@ -21,7 +21,10 @@ namespace Mazarini\TestBundle\Tool;
 
 class Folder
 {
-    private $stepDir;
+    /**
+     * @var string
+     */
+    private $stepDir = '';
 
     /**
      * __construct.
@@ -36,6 +39,8 @@ class Folder
 
     /**
      * getSteps.
+     *
+     * @return array<string,string>
      */
     public function getSteps(): array
     {

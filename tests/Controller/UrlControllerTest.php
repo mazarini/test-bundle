@@ -27,7 +27,7 @@ class UrlControllerTest extends WebTestCase
     /**
      * @dataProvider getPublicUrls
      */
-    public function testPublicUrls(string $url)
+    public function testPublicUrls(string $url): void
     {
         $client = static::createClient();
         $client->request('GET', $url);
@@ -39,6 +39,11 @@ class UrlControllerTest extends WebTestCase
         );
     }
 
+    /**
+     * getPublicUrls.
+     *
+     * @return \Traversable<mixed,array>
+     */
     public function getPublicUrls(): \Traversable
     {
         yield [''];

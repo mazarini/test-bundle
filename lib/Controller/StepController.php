@@ -27,11 +27,17 @@ use Mazarini\ToolsBundle\Data\Data;
 use Mazarini\ToolsBundle\Href\Hrefs;
 use Mazarini\ToolsBundle\Href\Link;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StepController extends ControllerAbstract
 {
+    /**
+     * __construct.
+     *
+     * @param Hrefs<string,Link> $hrefs
+     */
     public function __construct(RequestStack $requestStack, Hrefs $hrefs, Data $data)
     {
         parent::__construct($requestStack, $hrefs, $data);
@@ -44,7 +50,7 @@ class StepController extends ControllerAbstract
      * @Route("/", name="step_INDEX")
      * @Route("/{step}.html", name="step_index")
      */
-    public function index(Folder $folder, $step = '')
+    public function index(Folder $folder, string $step = ''): Response
     {
         $steps = $folder->getSteps();
         if (!isset($steps[$step])) {
@@ -72,6 +78,12 @@ class StepController extends ControllerAbstract
         return $this;
     }
 
+    /**
+     * addUrl.
+     *
+     * @param Hrefs<string,Link>  $hrefs
+     * @param array<string,mixed> $parameters
+     */
     protected function addUrl(Hrefs $hrefs, string $name, array $parameters = [], string $complement = null): ControllerAbstract
     {
         if (null === $complement) {

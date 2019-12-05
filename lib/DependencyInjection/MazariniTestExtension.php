@@ -26,7 +26,12 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class MazariniTestExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * load.
+     *
+     * @param array<string,mixed> $configs
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader(
             $container,
