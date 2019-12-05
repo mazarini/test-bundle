@@ -20,7 +20,7 @@
 namespace Mazarini\TestBundle\Controller;
 
 use Mazarini\TestBundle\Fake\Entity;
-use Mazarini\TestBundle\Fake\Pagination;
+use Mazarini\TestBundle\Fake\Repository;
 use Mazarini\TestBundle\Tool\Folder;
 use Mazarini\ToolsBundle\Controller\ControllerAbstract;
 use Mazarini\ToolsBundle\Data\Data;
@@ -57,7 +57,8 @@ class StepController extends ControllerAbstract
         $parameters['step'] = $step;
         $parameters['steps'][$step] = '';
         $parameters['entity'] = new Entity(1);
-        $parameters['pagination'] = new Pagination(3, 50, 10);
+        $repository = new Repository();
+        $parameters['pagination'] = $repository->findPage(3, 50, 10);
 
         return $this->dataRender('step/'.$steps[$step], $parameters);
     }
