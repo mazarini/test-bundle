@@ -24,7 +24,7 @@ twig:
 	twigcs lib/Resources/views -vv
 
 yaml:
-	bin/console lint:yaml lib/Resources/config config phpstan.neon.dist .travis.yml
+	bin/console lint:yaml config lib/Resources/config phpstan.neon.dist .travis.yml
 
 cs:
 	php-cs-fixer fix
@@ -67,26 +67,29 @@ stable:
 4.3: stable
 	composer config extra.symfony.require 4.3.*
 
-4.4: beta
+4.4: stable
 	composer config extra.symfony.require 4.4.*
 
-5.0: beta
+5.0: stable
 	composer config extra.symfony.require 5.0.*
+
+5.1: dev
+	composer config extra.symfony.require 5.1.*
 
 ############################################
 #               S E R V E R                #
 ############################################
 
 start:
-	bin/console server:start
+	symfony server:start --no-tls
 
 stop:
-	bin/console server:stop
+	symfony server:stop
 
 restart: stop start
 
 status:
-	bin/console server:status
+	symfony server:status
 
 ############################################
 #             D A T A B A S E              #
@@ -101,8 +104,9 @@ dbinit:
 
 dbreset: dbdrop dbinit
 
-fixtures:
+fixtures: dbreset
 	bin/console doctrine:fixtures:load
+	cp var/data/sqlite.db var/data/origine.db
 
 ############################################
 #                T E S T S                 #
