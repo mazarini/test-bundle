@@ -24,7 +24,7 @@ use Mazarini\ToolsBundle\Pagination\PaginationInterface;
 
 class Repository
 {
-    public function findPage(int $currentPage = 1, int $totalCount = 60, int $pageSize = 10): PaginationInterface
+    public function getPage(int $currentPage = 1, int $totalCount = 60, int $pageSize = 10): PaginationInterface
     {
         /*
          * No result
@@ -33,7 +33,7 @@ class Repository
             return new Pagination(new \ArrayIterator([]), $currentPage, $totalCount, $pageSize);
         }
         /**
-         * Compute pages.
+         * Compute current page when < 1 or > last page.
          */
         $currentPage = Pagination::CURRENT_PAGE($currentPage, $pageSize, $totalCount);
         /**

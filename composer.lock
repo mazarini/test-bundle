@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db070cee87c000f82a876ddadfbc3619",
+    "content-hash": "f259878b19780f4aadd67ff0ded2aec0",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -142,12 +142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mazarini/tools-bundle.git",
-                "reference": "97d43acbb84caed8f4b564eeb4003f4d26395568"
+                "reference": "df6d827444e7d91e916f62632a082d9808f0801a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/97d43acbb84caed8f4b564eeb4003f4d26395568",
-                "reference": "97d43acbb84caed8f4b564eeb4003f4d26395568",
+                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/df6d827444e7d91e916f62632a082d9808f0801a",
+                "reference": "df6d827444e7d91e916f62632a082d9808f0801a",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
             },
             "require-dev": {
                 "mazarini/package": "^1.0",
-                "mazarini/test-bundle": "^0.9",
+                "mazarini/test-bundle": "^0.9|^1.0dev",
                 "symfony/debug-pack": "^1.0",
                 "symfony/maker-bundle": "^1.14",
                 "symfony/test-pack": "^1.0"
@@ -200,7 +200,7 @@
                 "symfony",
                 "toolset"
             ],
-            "time": "2019-12-04T20:32:29+00:00"
+            "time": "2019-12-12T09:54:27+00:00"
         },
         {
             "name": "symfony/flex",

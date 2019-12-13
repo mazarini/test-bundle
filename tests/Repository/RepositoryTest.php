@@ -36,7 +36,7 @@ class RepositoryTest extends TestCase
 
     public function testZeroEntities(): void
     {
-        $pagination = $this->repository->findPage(1, 0, 10);
+        $pagination = $this->repository->getPage(1, 0, 10);
         $entities = $pagination->getEntities();
         $this->assertSame(\count($entities), 0);
     }
@@ -48,7 +48,7 @@ class RepositoryTest extends TestCase
      */
     public function testEntitiesCount(int $current, int $count): void
     {
-        $pagination = $this->repository->findPage($current, 25, 10);
+        $pagination = $this->repository->getPage($current, 25, 10);
         $entities = $pagination->getEntities();
         $this->assertSame(\count($entities), $count);
     }
@@ -60,11 +60,10 @@ class RepositoryTest extends TestCase
      */
     public function testEntitiesId(int $current, int $first, int $last): void
     {
-        $pagination = $this->repository->findPage($current, 25, 10);
+        $pagination = $this->repository->getPage($current, 25, 10);
         $entities = $pagination->getEntities();
-        $entity = $entities->current();
-        $this->assertSame($entity->getId(), $first);
-        $this->assertSame($entities[$last]->getId(), $last);
+        $this->assertSame($entities[0]->getId(), $first);
+        $this->assertSame($entities[$last - $first]->getId(), $last);
     }
 
     /**

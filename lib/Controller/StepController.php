@@ -21,35 +21,27 @@ namespace Mazarini\TestBundle\Controller;
 
 use Mazarini\TestBundle\Fake\Entity;
 use Mazarini\TestBundle\Fake\Repository;
+use Mazarini\TestBundle\Fake\UrlGenerator;
 use Mazarini\TestBundle\Tool\Folder;
-use Mazarini\ToolsBundle\Controller\ControllerAbstract;
+use Mazarini\ToolsBundle\Controller\AbstractController;
 use Mazarini\ToolsBundle\Data\Data;
-use Mazarini\ToolsBundle\Href\Hrefs;
-use Mazarini\ToolsBundle\Href\Link;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Routing\Annotation\Route;
 
-class StepController extends ControllerAbstract
+class StepController extends AbstractController
 {
     /**
      * __construct.
-     *
-     * @param Hrefs<string,Link> $hrefs
      */
-    public function __construct(RequestStack $requestStack, Hrefs $hrefs, Data $data)
+    public function __construct(RequestStack $requestStack)
     {
-        parent::__construct($requestStack, $hrefs, $data);
+        parent::__construct($requestStack, new UrlGenerator(), 'step');
         $this->parameters['symfony']['version'] = Kernel::VERSION;
         $this->parameters['php']['version'] = PHP_VERSION;
         $this->parameters['php']['extensions'] = get_loaded_extensions();
     }
 
-    /**
-     * @Route("/", name="step_INDEX")
-     * @Route("/{step}.html", name="step_index")
-     */
     public function index(Folder $folder, string $step = ''): Response
     {
         $steps = $folder->getSteps();
@@ -62,34 +54,81 @@ class StepController extends ControllerAbstract
         }
         $parameters['step'] = $step;
         $parameters['steps'][$step] = '';
-        $parameters['entity'] = new Entity(1);
+        $this->data->setEntity(new Entity(1));
         $repository = new Repository();
-        $parameters['pagination'] = $repository->findPage(3, 50, 10);
+        $this->data->setPagination($repository->getPage(3, 50, 10));
 
         return $this->dataRender('step/'.$steps[$step], $parameters);
     }
 
-    protected function InitUrl(Data $data): ControllerAbstract
+    /**
+     * listUrl.
+     *
+     * @param array<int,string> $actions
+     */
+    protected function listUrl(Data $data, array $actions): AbstractController
     {
-        $data->getHrefs()['current'] = new Link('');
-        $data->getHrefs()['disabled'] = new Link('#');
-        $this->addUrl($data->getHrefs(), 'INDEX');
+        if ($data->isSetEntities()) {
+            foreach ($data->getEntities() as $entity) {
+                $id = $entity->getId();
+                $parameters = ['id' => $id];
+                foreach ($actions as $action) {
+                    $data->addLink($action.'-'.$id, $action, $parameters);
+                }
+            }
+        }
 
         return $this;
     }
 
-    /**
-     * addUrl.
-     *
-     * @param Hrefs<string,Link>  $hrefs
-     * @param array<string,mixed> $parameters
-     */
-    protected function addUrl(Hrefs $hrefs, string $name, array $parameters = [], string $complement = null): ControllerAbstract
+    protected function PaginationUrl(Data $data): AbstractController
     {
-        if (null === $complement) {
-            $complement = $name;
+        if ($data->isSetEntities()) {
+            $pagination = $data->getPagination();
+            if ($pagination->hasPreviousPage()) {
+                $data->addLink('first', '_page', ['page' => 1]);
+                $data->addLink('previous', '_page', ['page' => $pagination->getCurrentPage() - 1]);
+            }
+            if ($pagination->hasNextPage()) {
+                $last = $pagination->getLastPage();
+                $data->addLink('Next', '_page', ['page' => $pagination->getCurrentPage() + 1]);
+                $data->addLink('Last', '_page', ['page' => $last]);
+            }
+            if (($last = $pagination->getLastPage()) <= 20) {
+                for ($i = 1; $i <= $last; ++$i) {
+                    $data->addLink('page-'.$i, '_page', ['page' => $i]);
+                }
+            }
+        } else {
+            $data->addLink('index', '_page', ['page' => 1]);
         }
-        $hrefs->addLink($complement, '#'.$complement);
+
+        return $this;
+    }
+
+    protected function crudUrl(Data $data): AbstractController
+    {
+        if ($data->isSetEntity()) {
+            $id = $data->getEntity()->getId();
+            if (0 !== $id) {
+                $parameters = ['id' => $id];
+                foreach (['_edit', '_show', '_delete'] as $action) {
+                    $data->addLink($action, $action, $parameters);
+                }
+            }
+        }
+        foreach (['_new', '_index'] as $action) {
+            $data->addLink($action, $action);
+        }
+
+        return $this;
+    }
+
+    protected function initUrl(Data $data): AbstractController
+    {
+        $this->listUrl($data, ['_show', '_edit']);
+        $this->paginationUrl($data);
+        $this->crudUrl($data);
 
         return $this;
     }

@@ -19,40 +19,25 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Mazarini\TestBundle\Test\Controller\HomeControllerAbstractTest;
 use Symfony\Component\HttpFoundation\Response;
 
-class UrlControllerTest extends WebTestCase
+class HomeControllerTest extends HomeControllerAbstractTest
 {
-    /**
-     * @dataProvider getPublicUrls
-     */
-    public function testPublicUrls(string $url): void
+    public function setUp(): void
     {
-        $client = static::createClient();
-        $client->request('GET', $url);
-
-        $this->assertSame(
-            Response::HTTP_OK,
-            $client->getResponse()->getStatusCode(),
-            sprintf('The %s public URL loads correctly.', $url)
-        );
+        parent::setUp();
+        $this->default = Response::HTTP_OK;
     }
 
     /**
-     * getPublicUrls.
+     * getUrls.
      *
      * @return \Traversable<mixed,array>
      */
-    public function getPublicUrls(): \Traversable
+    public function getUrls(): \Traversable
     {
         yield [''];
-        yield ['/'];
-        yield ['/Index.html'];
-        yield ['/Entity.html'];
-        yield ['/Entities.html'];
-        yield ['/Href.html'];
-        yield ['/Pagination.html'];
-        yield ['/Data.html'];
+        yield ['/url'];
     }
 }

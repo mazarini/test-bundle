@@ -19,11 +19,13 @@
 
 namespace Mazarini\TestBundle\Fake;
 
-use Mazarini\ToolsBundle\Collection\Property;
 use Mazarini\ToolsBundle\Entity\EntityInterface;
 use Mazarini\ToolsBundle\Entity\EntityTrait;
 
-class Entity extends Property implements EntityInterface
+/**
+ * @template-extends \ArrayIterator<int,mixed>
+ */
+class Entity extends \ArrayIterator implements EntityInterface
 {
     use EntityTrait;
 
@@ -32,7 +34,11 @@ class Entity extends Property implements EntityInterface
         if (null !== $id) {
             $this->id = $id;
         }
-        parent::__construct();
+        $array = [];
+        for ($i = 1; $i <= 9; ++$i) {
+            $array[$i] = $this->get($i);
+        }
+        parent::__construct($array);
     }
 
     public function getCol1(): string

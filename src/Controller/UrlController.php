@@ -25,13 +25,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/")
+ * @Route("/url")
  */
-class StepController extends BaseController
+class UrlController extends BaseController
 {
     /**
-     * @Route("/", name="step_INDEX")
-     * @Route("/{step}.html", name="step_index")
+     * @Route("", name="url_INDEX")
+     * @Route("/{step}.html", name="url_index")
      */
     public function index(Folder $folder, string $step = ''): Response
     {

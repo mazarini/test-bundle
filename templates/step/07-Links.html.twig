@@ -1,7 +1,7 @@
 {% extends '@MazariniTest/step/layout.html.twig' %}
 
 {% block content %}
-	{{ dump(data.hrefs) }}
+	{{ dump(data.links) }}
 	<table>
 		<tr>
 			<th>
@@ -20,17 +20,17 @@
 				[Key].class
 			</th>
 		</tr>
-		{% embed '@MazariniTools/iterative.html.twig' with {'items': data.hrefs} %}
+		{% embed '@MazariniTools/iterative.html.twig' with {'items': data.links} %}
 			{% block item_container %}
 				<tr>
 					<td>{{ key }}</td>
 					<td>{{ item.url }}</td>
 					<td>{{ item.class }}</td>
-					<td>{{ data.hrefs[key].url }}</td>
-					<td>{{ data.hrefs[key].class }}</td>
+					<td>{{ data.links[key].url }}</td>
+					<td>{{ data.links[key].class }}</td>
 				</tr>
 			{% endblock item_container %}
 		{% endembed %}
 	</table>
-	{{ dump(data.hrefs) }}
+	{{ dump(data.links) }}
 {% endblock %}

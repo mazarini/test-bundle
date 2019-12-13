@@ -17,18 +17,26 @@
  * You should have received a copy of the GNU General Public License
  */
 
-namespace App\Tests\Entity;
+namespace App\Tests\Controller;
 
-use Mazarini\TestBundle\Fake\Entity;
-use PHPUnit\Framework\TestCase;
+use Mazarini\TestBundle\Test\Controller\UrlControllerAbstractTest;
 
-class EntityIteratorTest extends TestCase
+class StepControllerTest extends UrlControllerAbstractTest
 {
-    public function testIterator(): void
+    /**
+     * getUrls.
+     *
+     * @return \Traversable<mixed,array>
+     */
+    public function getUrls(): \Traversable
     {
-        $entity = new Entity(1);
-        foreach ($entity as $key => $value) {
-            $this->assertSame($entity[$key], $value);
-        }
+        yield [''];
+        yield ['/'];
+        yield ['/Index.html'];
+        yield ['/Entity.html'];
+        yield ['/Entities.html'];
+        yield ['/Links.html'];
+        yield ['/Pagination.html'];
+        yield ['/Data.html'];
     }
 }
