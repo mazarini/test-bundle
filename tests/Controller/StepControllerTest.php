@@ -30,8 +30,6 @@ class StepControllerTest extends UrlControllerAbstractTest
      */
     public function getUrls(): \Traversable
     {
-        yield [''];
-        yield ['/'];
         yield ['/Index.html'];
         yield ['/Entity.html'];
         yield ['/Entities.html'];

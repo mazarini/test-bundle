@@ -21,17 +21,30 @@ namespace App\Controller;
 
 use Mazarini\TestBundle\Controller\StepController as BaseController;
 use Mazarini\TestBundle\Tool\Folder;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/url")
+ * @Route("/test")
  */
 class UrlController extends BaseController
 {
+    public function __construct(RequestStack $requestStack)
+    {
+        parent::__construct($requestStack, 'test');
+    }
+
     /**
-     * @Route("", name="url_INDEX")
-     * @Route("/{step}.html", name="url_index")
+     * @Route("/", name="test_home")
+     */
+    public function home(Folder $folder, string $step = ''): Response
+    {
+        return parent::home($folder);
+    }
+
+    /**
+     * @Route("/{step}.html", name="test_index")
      */
     public function index(Folder $folder, string $step = ''): Response
     {

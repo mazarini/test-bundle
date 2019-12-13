@@ -20,14 +20,12 @@
 namespace App\Tests\Controller;
 
 use Mazarini\TestBundle\Test\Controller\HomeControllerAbstractTest;
-use Symfony\Component\HttpFoundation\Response;
 
 class HomeControllerTest extends HomeControllerAbstractTest
 {
     public function setUp(): void
     {
         parent::setUp();
-        $this->default = Response::HTTP_OK;
     }
 
     /**
@@ -38,6 +36,6 @@ class HomeControllerTest extends HomeControllerAbstractTest
     public function getUrls(): \Traversable
     {
         yield [''];
-        yield ['/url'];
+        yield ['/test'];
     }
 }

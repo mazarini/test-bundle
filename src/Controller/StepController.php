@@ -20,8 +20,6 @@
 namespace App\Controller;
 
 use Mazarini\TestBundle\Controller\StepController as BaseController;
-use Mazarini\TestBundle\Tool\Folder;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,12 +27,4 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class StepController extends BaseController
 {
-    /**
-     * @Route("/", name="step_INDEX")
-     * @Route("/{step}.html", name="step_index")
-     */
-    public function index(Folder $folder, string $step = ''): Response
-    {
-        return parent::index($folder, $step);
-    }
 }

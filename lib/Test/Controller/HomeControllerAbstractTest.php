@@ -38,7 +38,7 @@ abstract class HomeControllerAbstractTest extends WebTestCase
     public function setUp(): void
     {
         $this->client = static::createClient();
-        $this->default = Response::HTTP_OK;
+        $this->default = Response::HTTP_FOUND;
     }
 
     /**
@@ -51,15 +51,18 @@ abstract class HomeControllerAbstractTest extends WebTestCase
         if (0 === $response) {
             $response = $this->default;
         }
-
         $this->client->request('GET', $url);
 
-        if (Response::HTTP_FOUND === $response) {
-            $message = sprintf('The %s URL loads correctly.', $url);
-        } else {
-            $message = sprintf('The %s URL redirect correctly with code %d.', $url, $this->client->getResponse()->getStatusCode());
+        if (Response::HTTP_FOUND === $response && '' !== $url) {
+            $response = Response::HTTP_MOVED_PERMANENTLY;
         }
-        $this->assertSame($response, $this->client->getResponse()->getStatusCode(), $message);
+
+        if (Response::HTTP_OK === $response) {
+            $message = sprintf('The "%s" URL loads correctly.', $url);
+        } else {
+            $message = sprintf('The "%s" URL redirect correctly with code %d.', $url, $this->client->getResponse()->getStatusCode());
+        }
+        $this->assertSame($this->client->getResponse()->getStatusCode(), $response, $message);
     }
 
     /**
@@ -72,17 +75,14 @@ abstract class HomeControllerAbstractTest extends WebTestCase
         if (0 === $response) {
             $response = $this->default;
         }
-        if (Response::HTTP_OK === $response && '' !== $url) {
-            $response = Response::HTTP_MOVED_PERMANENTLY;
-        }
         $url .= '/';
 
         $this->client->request('GET', $url);
 
         $this->assertSame(
-            $response,
             $this->client->getResponse()->getStatusCode(),
-            sprintf('The %s URL redirect correctly with %d.', $url, $response)
+            $response,
+            sprintf('The "%s" URL redirect correctly with %d.', $url, $response)
         );
     }
 

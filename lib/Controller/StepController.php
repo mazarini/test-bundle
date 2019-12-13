@@ -28,20 +28,34 @@ use Mazarini\ToolsBundle\Data\Data;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Routing\Annotation\Route;
 
 class StepController extends AbstractController
 {
     /**
      * __construct.
      */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, string $baseRoute = 'step')
     {
-        parent::__construct($requestStack, new UrlGenerator(), 'step');
+        parent::__construct($requestStack, new UrlGenerator(), $baseRoute);
         $this->parameters['symfony']['version'] = Kernel::VERSION;
         $this->parameters['php']['version'] = PHP_VERSION;
         $this->parameters['php']['extensions'] = get_loaded_extensions();
     }
 
+    /**
+     * @Route("/", name="step_home")
+     */
+    public function home(Folder $folder): Response
+    {
+        $step = array_key_first($folder->getSteps());
+
+        return $this->redirectToRoute($this->data->getRoute('_index'), ['step' => $step]);
+    }
+
+    /**
+     * @Route("/{step}.html", name="step_index")
+     */
     public function index(Folder $folder, string $step = ''): Response
     {
         $steps = $folder->getSteps();
