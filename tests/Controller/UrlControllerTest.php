@@ -19,8 +19,22 @@
 
 namespace App\Tests\Controller;
 
-use Mazarini\TestBundle\Test\Controller\StepControllerAbstractTest;
+use Mazarini\TestBundle\Test\Controller\UrlControllerAbstractTest;
 
-class StepControllerTest extends StepControllerAbstractTest
+class UrlControllerTest extends UrlControllerAbstractTest
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
+
+    /**
+     * getUrls.
+     *
+     * @return \Traversable<mixed,array>
+     */
+    public function getUrls(): \Traversable
+    {
+        yield ['/test-KO-404.html', 404];
+    }
 }
