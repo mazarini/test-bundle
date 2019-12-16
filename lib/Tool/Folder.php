@@ -32,7 +32,12 @@ class Folder
     public function __construct(string $stepDir = '')
     {
         if ('' === $stepDir) {
-            $stepDir = \dirname(__DIR__, 2).'/templates/step';
+            if (false === mb_strpos(__DIR__, implode(['vendor', 'mazarini', 'tools-bundle', 'lib', 'Tool'], \DIRECTORY_SEPARATOR))) {
+                $stepDir = \dirname(__DIR__, 2);
+            } else {
+                $stepDir = \dirname(__DIR__, 5);
+            }
+            $stepDir .= '/templates/step';
         }
         $this->stepDir = $stepDir;
     }
