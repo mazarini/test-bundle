@@ -142,12 +142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mazarini/tools-bundle.git",
-                "reference": "df6d827444e7d91e916f62632a082d9808f0801a"
+                "reference": "b956a1f846839c1fe779b087bdead3d3d87232d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/df6d827444e7d91e916f62632a082d9808f0801a",
-                "reference": "df6d827444e7d91e916f62632a082d9808f0801a",
+                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/b956a1f846839c1fe779b087bdead3d3d87232d5",
+                "reference": "b956a1f846839c1fe779b087bdead3d3d87232d5",
                 "shasum": ""
             },
             "require": {
@@ -200,20 +200,20 @@
                 "symfony",
                 "toolset"
             ],
-            "time": "2019-12-12T09:54:27+00:00"
+            "time": "2019-12-16T14:49:38+00:00"
         },
         {
             "name": "symfony/flex",
-            "version": "v1.5.3",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "59b42aa1d3385a21683601c15e63eb35d2ebe8a4"
+                "reference": "952f45d1c5077e658cb16a61d11603bee873f968"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/59b42aa1d3385a21683601c15e63eb35d2ebe8a4",
-                "reference": "59b42aa1d3385a21683601c15e63eb35d2ebe8a4",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/952f45d1c5077e658cb16a61d11603bee873f968",
+                "reference": "952f45d1c5077e658cb16a61d11603bee873f968",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2019-12-01T15:56:52+00:00"
+            "time": "2019-12-13T18:05:11+00:00"
         }
     ],
     "packages-dev": [

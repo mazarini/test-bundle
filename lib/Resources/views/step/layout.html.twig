@@ -7,3 +7,7 @@
 {% block title %}
 	{{ step }}
 {% endblock %}
+
+{% block menu %}
+	{% include '@MazariniTest/step/menu.html.twig' with {'items': steps} %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% for key,item in items %}
+	{# evaluates to true if the foo variable is iterable #}
+	{% if item is iterable %}
+		<tr>
+			<td>{{ key }}</td>
+			<td colspan="3">begin iterable : "{{ item['@LABEL@'].label }}"</td>
+		</tr>
+		{% include 'step/links.html.twig' with {'items': item} only %}
+		<tr>
+			<td>{{ key }}</td>
+			<td colspan="3">end iterable : "{{ item['@LABEL@'].label }}"</td>
+		</tr>
+	{% else %}
+		{# users is probably a string #}
+		<tr>
+			<td>{{ key }}</td>
+			<td>{{ item.url }}</td>
+			<td>{{ item.class }}</td>
+			<td>{{ item.label }}</td>
+		</tr>
+	{% endif %}
+{% endfor %}

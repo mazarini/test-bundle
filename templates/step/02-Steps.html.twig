@@ -1,0 +1,31 @@
+{% extends '@MazariniTest/step/layout.html.twig' %}
+
+{% block content %}
+	{{ dump(steps) }}
+	<table>
+		<tr>
+			<th>
+				Key
+			</th>
+			<th>
+				Url
+			</th>
+			<th>
+				Class
+			</th>
+			<th>
+				Label
+			</th>
+		</tr>
+		{% embed '@MazariniTools/iterative.html.twig' with {'items': steps} %}
+			{% block item_container %}
+				<tr>
+					<td>{{ key }}</td>
+					<td>{{ item.url }}</td>
+					<td>{{ item.class }}</td>
+					<td>{{ item.label }}</td>
+				</tr>
+			{% endblock item_container %}
+		{% endembed %}
+	</table>
+{% endblock %}

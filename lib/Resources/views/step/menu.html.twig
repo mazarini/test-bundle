@@ -2,7 +2,7 @@
 	{% embed '@MazariniTools/iterative.html.twig' with {'items': steps} %}
 		{% block item_container %}
 			<a href="{{ item.url }}" class="list-group-item list-group-item-action{{ item.class }}">
-				{{ key }}
+				{{ item.label }}
 			</a>
 		{% endblock item_container %}
 	{% endembed %}

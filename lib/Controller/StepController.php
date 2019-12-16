@@ -70,11 +70,38 @@ class StepController extends AbstractController
         $repository = new Repository();
         $this->data->setPagination($repository->getPage(3, 50, 10));
 
-        $menu = new Links($step, $this->generateUrl('step_index', ['step' => $step]));
+        $menu = new Links('', $this->generateUrl('step_index', ['step' => $step]), 'Main menu');
         $this->parameters['steps'] = $menu;
         foreach (array_keys($steps) as $name) {
-            $menu->addLink($name, $this->generateUrl('step_index', ['step' => $name]));
+            $menu->addLink($name, $this->generateUrl('step_index', ['step' => $name]), $name);
         }
+
+        $list = new Links('', '#item-2', 'Main list');
+        $this->parameters['list'] = $list;
+        for ($i = 1; $i < 6; ++$i) {
+            $list->addLink('item-'.$i, '#item-'.$i, 'Item-'.$i);
+        }
+
+        $sub2 = new Links('', '', 'Sub sub tree');
+        for ($i = 1; $i < 6; ++$i) {
+            $sub2->addLink('sub2-'.$i, '#sub2-'.$i, 'Sub2-'.$i);
+        }
+        $sub = new Links('', '', 'Sub tree');
+        for ($i = 1; $i < 6; ++$i) {
+            $sub->addLink('sub-'.$i, '#sub-'.$i, 'Sub-'.$i);
+            if (3 === $i) {
+                $sub->addLinks('sub2', $sub2);
+            }
+        }
+        $tree = new Links('', '#tree', 'Main tree');
+        $this->parameters['tree'] = $tree;
+        for ($i = 1; $i < 6; ++$i) {
+            $tree->addLink('item-'.$i, '#item-'.$i, 'Item-'.$i);
+            if (4 === $i) {
+                $tree->addLinks('sub', $sub);
+            }
+        }
+
         $parameters['step'] = $step;
 
         return $this->dataRender('step/'.$steps[$step], $parameters);
@@ -83,7 +110,7 @@ class StepController extends AbstractController
     /**
      * listUrl.
      *
-     * @param array<int,string> $actions
+     * @param array<string,string> $actions
      */
     protected function listUrl(Data $data, array $actions): AbstractController
     {
@@ -91,8 +118,8 @@ class StepController extends AbstractController
             foreach ($data->getEntities() as $entity) {
                 $id = $entity->getId();
                 $parameters = ['id' => $id];
-                foreach ($actions as $action) {
-                    $data->addLink($action.'-'.$id, $action, $parameters);
+                foreach ($actions as $action => $label) {
+                    $data->addLink($action.'-'.$id, $action, $parameters, $label);
                 }
             }
         }
@@ -105,21 +132,25 @@ class StepController extends AbstractController
         if ($data->isSetEntities()) {
             $pagination = $data->getPagination();
             if ($pagination->hasPreviousPage()) {
-                $data->addLink('first', '_page', ['page' => 1]);
-                $data->addLink('previous', '_page', ['page' => $pagination->getCurrentPage() - 1]);
+                $data->addLink('first', '_page', ['page' => 1], '1');
+                $data->addLink('previous', '_page', ['page' => $pagination->getCurrentPage() - 1], 'Previous');
+            } else {
+                $data->getLinks()->addLink('first', '#', '1');
+                $data->getLinks()->addLink('previous', '#', 'Previous');
             }
             if ($pagination->hasNextPage()) {
                 $last = $pagination->getLastPage();
-                $data->addLink('Next', '_page', ['page' => $pagination->getCurrentPage() + 1]);
-                $data->addLink('Last', '_page', ['page' => $last]);
+                $data->addLink('next', '_page', ['page' => $pagination->getCurrentPage() + 1], 'Next');
+                $data->addLink('last', '_page', ['page' => $last], (string) $last);
+            } else {
+                $data->getLinks()->addLink('next', '#', 'Next');
+                $data->getLinks()->addLink('last', '#', (string) $pagination->getLastPage());
             }
             if (($last = $pagination->getLastPage()) <= 20) {
                 for ($i = 1; $i <= $last; ++$i) {
-                    $data->addLink('page-'.$i, '_page', ['page' => $i]);
+                    $data->addLink('page-'.$i, '_page', ['page' => $i], (string) $i);
                 }
             }
-        } else {
-            $data->addLink('index', '_page', ['page' => 1]);
         }
 
         return $this;
@@ -131,23 +162,25 @@ class StepController extends AbstractController
             $id = $data->getEntity()->getId();
             if (0 !== $id) {
                 $parameters = ['id' => $id];
-                foreach (['_edit', '_show', '_delete'] as $action) {
-                    $data->addLink($action, $action, $parameters);
+                foreach (['_edit' => 'Edit', '_show' => 'Show', '_delete' => 'Delete'] as $action => $label) {
+                    $data->addLink($action, $action, $parameters, $label);
                 }
             }
         }
-        foreach (['_new', '_index'] as $action) {
-            $data->addLink($action, $action);
-        }
+        $data->addLink('new', '_new', [], 'Create');
+        $data->addLink('index', '_index', ['page' => 1], 'List');
 
         return $this;
     }
 
     protected function initUrl(Data $data): AbstractController
     {
-        $this->listUrl($data, ['_show', '_edit']);
-        $this->paginationUrl($data);
+        $data->getLinks()->addLink('active', '', 'Active');
+        $data->getLinks()->addLink('disable', '#', 'Disable');
         $this->crudUrl($data);
+        $this->paginationUrl($data);
+        $this->listUrl($data, ['_show' => 'Show', '_edit' => 'Edit', '_delete' => 'Delete']);
+        $data->getLinks()->setCurrentUrl('#step_page-'.$data->getPagination()->getCurrentPage());
 
         return $this;
     }
