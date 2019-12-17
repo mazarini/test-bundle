@@ -32,7 +32,7 @@ class Folder
     public function __construct(string $stepDir = '')
     {
         if ('' === $stepDir) {
-            if (false === mb_strpos(__DIR__, implode(\DIRECTORY_SEPARATOR, ['vendor', 'mazarini', 'tools-bundle', 'lib', 'Tool']))) {
+            if (false === mb_strpos(__DIR__, implode(\DIRECTORY_SEPARATOR, ['vendor', 'mazarini', 'test-bundle', 'lib', 'Tool']))) {
                 $stepDir = \dirname(__DIR__, 2);
             } else {
                 $stepDir = \dirname(__DIR__, 5);
