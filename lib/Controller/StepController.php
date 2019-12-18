@@ -39,9 +39,20 @@ class StepController extends AbstractController
     public function __construct(RequestStack $requestStack, string $baseRoute = 'step')
     {
         parent::__construct($requestStack, new UrlGenerator(), $baseRoute);
+
         $this->parameters['symfony']['version'] = Kernel::VERSION;
+
         $this->parameters['php']['version'] = PHP_VERSION;
         $this->parameters['php']['extensions'] = get_loaded_extensions();
+
+        $this->parameters['list'] = $this->getLinks('Main list', 'item', 7);
+
+        $this->parameters['tree'] = $tree = $this->getLinks('Tree', 'item', 5);
+        $tree['item-1'] = $item1 = $this->getLinks('Item-1', 'item-1', 2);
+        $item1['item-1-1'] = $this->getLinks('Item-1-1', 'item-1-1', 3);
+        $item1['item-1-2'] = $this->getLinks('Item-1-2', 'item-1-2', 2);
+        $tree['item-2'] = $this->getLinks('Item-2', 'item-2', 2);
+        $tree['item-4'] = $this->getLinks('Item-4', 'item-4', 2);
     }
 
     /**
@@ -74,32 +85,6 @@ class StepController extends AbstractController
         $this->parameters['steps'] = $menu;
         foreach (array_keys($steps) as $name) {
             $menu->addLink($name, $this->generateUrl('step_index', ['step' => $name]), $name);
-        }
-
-        $list = new Links('', '#item-2', 'Main list');
-        $this->parameters['list'] = $list;
-        for ($i = 1; $i < 6; ++$i) {
-            $list->addLink('item-'.$i, '#item-'.$i, 'Item-'.$i);
-        }
-
-        $sub2 = new Links('', '', 'Sub sub tree');
-        for ($i = 1; $i < 6; ++$i) {
-            $sub2->addLink('sub2-'.$i, '#sub2-'.$i, 'Sub2-'.$i);
-        }
-        $sub = new Links('', '', 'Sub tree');
-        for ($i = 1; $i < 6; ++$i) {
-            $sub->addLink('sub-'.$i, '#sub-'.$i, 'Sub-'.$i);
-            if (3 === $i) {
-                $sub->addLinks('sub2', $sub2);
-            }
-        }
-        $tree = new Links('', '#tree', 'Main tree');
-        $this->parameters['tree'] = $tree;
-        for ($i = 1; $i < 6; ++$i) {
-            $tree->addLink('item-'.$i, '#item-'.$i, 'Item-'.$i);
-            if (4 === $i) {
-                $tree->addLinks('sub', $sub);
-            }
         }
 
         $parameters['step'] = $step;
@@ -183,5 +168,17 @@ class StepController extends AbstractController
         $data->getLinks()->setCurrentUrl('#step_page-'.$data->getPagination()->getCurrentPage());
 
         return $this;
+    }
+
+    protected function getLinks(string $label, string $name, int $count = 5): Links
+    {
+        $links = new Links('', '', $label);
+        $name .= '-';
+        for ($i = 1; $i <= $count; ++$i) {
+            $key = $name.$i;
+            $links->addLink($key, '#'.$key, ucfirst($key));
+        }
+
+        return $links;
     }
 }
