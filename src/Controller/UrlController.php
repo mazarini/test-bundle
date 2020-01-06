@@ -30,17 +30,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UrlController extends BaseController
 {
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, Folder $folder)
     {
-        parent::__construct($requestStack, 'test');
+        parent::__construct($requestStack, $folder, 'test');
     }
 
     /**
      * @Route("/", name="test_home")
      */
-    public function home(Folder $folder, string $step = ''): Response
+    public function home(): Response
     {
-        return parent::home($folder);
+        return parent::home();
     }
 
     /**

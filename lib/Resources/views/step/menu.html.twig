@@ -1,5 +1,6 @@
 <div class="list-group">
-	{% embed '@MazariniTools/iterative.html.twig' with {'items': steps} %}
+	{{ dump(menu) }}
+	{% embed '@MazariniTools/iterative.html.twig' with {'items': menu} %}
 		{% block item_container %}
 			<a href="{{ item.url }}" class="list-group-item list-group-item-action{{ item.class }}">
 				{{ item.label }}
