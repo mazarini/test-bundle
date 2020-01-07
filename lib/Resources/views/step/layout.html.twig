@@ -13,6 +13,6 @@
 {% endblock %}
 
 {% block menu %}
-	{{ dump(menu) }}
 	{% include '@MazariniTest/step/menu.html.twig'  with {'items': menu} only %}
+	{% include '@MazariniTest/step/menu.html.twig'  with {'items': menu[step]} only %}
 {% endblock %}

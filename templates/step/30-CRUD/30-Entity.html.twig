@@ -1,7 +1,7 @@
 {% extends '@MazariniTest/step/layout.html.twig' %}
 
 {% block content %}
-	{{ dump(data.entity) }}
+	{{ dump(dataCrud.entity) }}
 	<table>
 		<tr>
 			<th>
@@ -14,15 +14,14 @@
 				[Key]
 			</th>
 		</tr>
-		{% embed '@MazariniTools/iterative.html.twig' with {'items': data.entity} %}
+		{% embed '@MazariniTools/iterative.html.twig' with {'items': dataCrud.entity} %}
 			{% block item_container %}
 				<tr>
 					<td>{{ key }}</td>
 					<td>{{ item }}</td>
-					<td>{{ data.entity[key] }}</td>
+					<td>{{ dataCrud.entity[key] }}</td>
 				</tr>
 			{% endblock item_container %}
 		{% endembed %}
 	</table>
-	{{ dump(data.entity) }}
 {% endblock %}
