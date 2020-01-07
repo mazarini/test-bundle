@@ -63,7 +63,11 @@ abstract class StepControllerAbstractTest extends UrlControllerAbstractTest
         $folder = new Folder();
         $steps = $folder->getSteps();
         foreach ($steps as $step => $dummy) {
-            yield ['/'.$step.'.html'];
+            yield ['/'.$step, 302];
+            $pages = $folder->getPages($steps[$step]);
+            foreach ($pages as $page => $dummy) {
+                yield ['/'.$step.'/'.$page.'.html'];
+            }
         }
     }
 }

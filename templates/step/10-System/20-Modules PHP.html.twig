@@ -2,21 +2,12 @@
 
 {% block content %}
 	<ul>
-		<li>
-			PHP :
-			{{ php.version }}
-		</li>
-		<li>
-			Symfony :
-			{{ symfony.version }}
-		</li>
 		{% embed '@MazariniTools/iterative.html.twig' with {'items': php.extensions} %}
 			{% block item_container %}
 				<li>
-				   {{ item }}
+					{{ item }}
 				</li>
 			{% endblock item_container %}
 		{% endembed %}
-
 	</ul>
 {% endblock %}

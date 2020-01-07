@@ -2,12 +2,17 @@
 
 {% block head_title %}
 	{{ step }}
+	-
+	{{ page }}
 {% endblock %}
 
 {% block title %}
 	{{ step }}
+	-
+	{{ page }}
 {% endblock %}
 
 {% block menu %}
-	{% include '@MazariniTest/step/menu.html.twig' %}
+	{{ dump(menu) }}
+	{% include '@MazariniTest/step/menu.html.twig'  with {'items': menu} only %}
 {% endblock %}

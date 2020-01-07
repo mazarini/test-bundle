@@ -46,23 +46,14 @@ abstract class HomeControllerAbstractTest extends WebTestCase
      *
      * @dataProvider getUrls
      */
-    public function testUrls(string $url, int $response = 0): void
+    public function testUrls(string $url): void
     {
-        if (0 === $response) {
-            $response = $this->default;
-        }
         $this->client->request('GET', $url);
 
-        if (Response::HTTP_FOUND === $response && '' !== $url) {
-            $response = Response::HTTP_MOVED_PERMANENTLY;
-        }
-
-        if (Response::HTTP_OK === $response) {
-            $message = sprintf('The "%s" URL loads correctly.', $url);
-        } else {
-            $message = sprintf('The "%s" URL redirect correctly with code %d.', $url, $this->client->getResponse()->getStatusCode());
-        }
-        $this->assertSame($this->client->getResponse()->getStatusCode(), $response, $message);
+        $this->assertTrue(
+            \in_array($this->client->getResponse()->getStatusCode(), [301, 302], true),
+            sprintf('The "%s" URL redirect correctly', $url)
+        );
     }
 
     /**
@@ -70,19 +61,14 @@ abstract class HomeControllerAbstractTest extends WebTestCase
      *
      * @dataProvider getUrls
      */
-    public function testSlashUrls(string $url, int $response = 0): void
+    public function testSlashUrls(string $url): void
     {
-        if (0 === $response) {
-            $response = $this->default;
-        }
         $url .= '/';
-
         $this->client->request('GET', $url);
 
-        $this->assertSame(
-            $this->client->getResponse()->getStatusCode(),
-            $response,
-            sprintf('The "%s" URL redirect correctly with %d.', $url, $response)
+        $this->assertTrue(
+            \in_array($this->client->getResponse()->getStatusCode(), [301, 302], true),
+            sprintf('The "%s" URL redirect correctly', $url)
         );
     }
 

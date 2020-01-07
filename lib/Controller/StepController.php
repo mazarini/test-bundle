@@ -36,6 +36,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class StepController extends AbstractController
 {
     /**
+     * @var Folder
+     */
+    protected $folder;
+    /**
      * @var array<string,string>
      */
     protected $steps = [];
@@ -44,6 +48,15 @@ class StepController extends AbstractController
      * @var string
      */
     protected $step = '';
+    /**
+     * @var array<string,string>
+     */
+    protected $pages = [];
+
+    /**
+     * @var string
+     */
+    protected $page = '';
 
     /**
      * __construct.
@@ -51,6 +64,7 @@ class StepController extends AbstractController
     public function __construct(RequestStack $requestStack, Folder $folder, string $baseRoute = 'step')
     {
         $this->parameters['steps'] = $this->steps = $folder->getSteps();
+        $this->folder = $folder;
 
         parent::__construct($requestStack, new UrlGenerator(), $baseRoute);
 
@@ -74,27 +88,57 @@ class StepController extends AbstractController
      */
     public function home(): Response
     {
-        return $this->redirectToRoute('step_index', ['step' => array_key_first($this->steps)]);
+        $step = array_key_first($this->steps);
+        if (null === $step) {
+            $step = '';
+        }
+
+        return $this->homeStep($step);
     }
 
     /**
-     * @Route("/{step}.html", name="step_index")
+     * @Route("/{step}", name="step_home_step")
      */
-    public function index(Folder $folder, string $step): Response
+    public function homeStep(string $step): Response
     {
         if (!isset($this->steps[$step])) {
-            $currentUrl = $this->generateUrl('step_index', ['step' => $step]);
-            $tryUrl = $this->generateUrl('step_index', ['step' => array_key_first($this->steps)]);
+            $currentUrl = $this->generateUrl('step_home_step', ['step' => $step]);
+            $tryUrl = $this->generateUrl('step_home_step', ['step' => array_key_first($this->steps)]);
+            throw $this->createNotFoundException(sprintf('The step "%s" does not exist. Try <a href="%s">%s</a>', $currentUrl, $tryUrl, $tryUrl));
+        }
+
+        $this->pages = $this->folder->getPages($this->steps[$step]);
+
+        return $this->redirectToRoute('step_index', ['step' => $step, 'page' => array_key_first($this->pages)]);
+    }
+
+    /**
+     * @Route("/{step}/{page}.html", name="step_index")
+     */
+    public function index(Folder $folder, string $step, string $page): Response
+    {
+        if (!isset($this->steps[$step])) {
+            $currentUrl = $this->generateUrl('step_home_step', ['step' => $step]);
+            $tryUrl = $this->generateUrl('step_home_step', ['step' => array_key_first($this->steps)]);
+            throw $this->createNotFoundException(sprintf('The step "%s" does not exist. Try <a href="%s">%s</a>', $currentUrl, $tryUrl, $tryUrl));
+        }
+
+        $parameters['pages'] = $this->pages = $this->folder->getPages($this->steps[$step]);
+
+        if (!isset($this->pages[$page])) {
+            $currentUrl = $this->generateUrl('step_index', ['step' => $step, 'page' => $page]);
+            $tryUrl = $this->generateUrl('step_index', ['step' => $step, 'page' => array_key_first($this->pages)]);
             throw $this->createNotFoundException(sprintf('The page "%s" does not exist. Try <a href="%s">%s</a>', $currentUrl, $tryUrl, $tryUrl));
         }
 
         $parameters['step'] = $this->step = $step;
+        $parameters['page'] = $this->page = $page;
 
         $this->data->setEntity(new Entity(1));
         $repository = new Repository();
         $this->data->setPagination($repository->getPage(3, 50, 10));
 
-        return $this->dataRender('step/'.$this->steps[$step], $parameters);
+        return $this->dataRender('step/'.$this->steps[$step].'/'.$this->pages[$page], $parameters);
     }
 
     /**
@@ -177,10 +221,22 @@ class StepController extends AbstractController
 
     protected function initMenu(LinkTree $menu): AbstractController
     {
-        foreach (array_keys($this->steps) as $name) {
-            $menu[$name] = new Link($name, $this->generateUrl('step_index', ['step' => $name]));
+        foreach (array_keys($this->steps) as $step) {
+            if ($step === $this->step) {
+                $link = new LinkTree($step);
+                $link->disable();
+                $menu[$step] = $link;
+                foreach (array_keys($this->pages) as $page) {
+                    if ($page === $this->page) {
+                        $menu[$step][$page] = new Link($page, '');
+                    } else {
+                        $menu[$step][$page] = new Link($page, $this->generateUrl('step_index', ['step' => $step, 'page' => $page]));
+                    }
+                }
+            } else {
+                $menu[$step] = new Link($step, $this->generateUrl('step_home_step', ['step' => $step]));
+            }
         }
-        $this->menu[$this->step] = new Link($this->step, '');
 
         return $this;
     }

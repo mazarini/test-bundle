@@ -35,6 +35,6 @@ class UrlControllerTest extends UrlControllerAbstractTest
      */
     public function getUrls(): \Traversable
     {
-        yield ['/test-KO-404.html', 404];
+        yield ['/test', 404];
     }
 }

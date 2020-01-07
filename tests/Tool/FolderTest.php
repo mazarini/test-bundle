@@ -32,8 +32,16 @@ class FolderTest extends TestCase
         $folder = new Folder();
         $steps = $folder->getSteps();
         $this->assertTrue(\count($steps) > 0);
-        $key = array_key_first($steps);
-        $this->assertSame($key.'.html.twig', mb_substr($steps[$key], 3));
-        $this->assertTrue(file_exists('templates/step/'.$steps[$key]));
+
+        $step = array_key_first($steps);
+        $this->assertSame($step, mb_substr($steps[$step], 3));
+
+        $pages = $folder->getPages($steps[$step]);
+        $this->assertTrue(\count($pages) > 0);
+
+        $page = array_key_first($pages);
+        $this->assertSame($page.'.html.twig', mb_substr($pages[$page], 3));
+
+        $this->assertTrue(file_exists('templates/step/'.$steps[$step].'/'.$pages[$page]));
     }
 }

@@ -49,14 +49,33 @@ class Folder
      */
     public function getSteps(): array
     {
-        $dirs = glob($this->stepDir.'/??-*\.html\.twig');
+        $dirs = glob($this->stepDir.'/??-*');
         $steps = [];
         if (\is_array($dirs)) {
             foreach ($dirs as $dir) {
-                $steps[mb_substr(basename($dir, '.html.twig'), 3)] = basename($dir);
+                $step = basename($dir);
+                $steps[mb_substr($step, 3)] = $step;
             }
         }
 
         return $steps;
+    }
+
+    /**
+     * getPages.
+     *
+     * @return array<string,string>
+     */
+    public function getPages(string $step): array
+    {
+        $dirs = glob($this->stepDir.'/'.$step.'/??-*\.html\.twig');
+        $pages = [];
+        if (\is_array($dirs)) {
+            foreach ($dirs as $dir) {
+                $pages[mb_substr(basename($dir, '.html.twig'), 3)] = basename($dir);
+            }
+        }
+
+        return $pages;
     }
 }
