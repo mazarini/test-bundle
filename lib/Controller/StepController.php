@@ -168,6 +168,7 @@ class StepController extends AbstractController
     protected function setPaginationUrl(Data $data): AbstractController
     {
         $pagination = $data->getPagination();
+
         if ($pagination->hasPreviousPage()) {
             $data->addLink('first', $data->generateUrl('_index', ['page' => 1]), '1');
             $data->addLink('previous', $data->generateUrl('_index', ['page' => $pagination->getCurrentPage() - 1]), 'Previous');
@@ -175,6 +176,7 @@ class StepController extends AbstractController
             $data->getLinks()->addLink(new Link('first', '#', '1'));
             $data->getLinks()->addLink(new Link('previous', '#', 'Previous'));
         }
+
         if ($pagination->hasNextPage()) {
             $last = $pagination->getLastPage();
             $data->addLink('next', $data->generateUrl('_index', ['page' => $pagination->getCurrentPage() + 1]), 'Next');
@@ -183,9 +185,12 @@ class StepController extends AbstractController
             $data->getLinks()->addLink(new Link('next', '#', 'Next'));
             $data->getLinks()->addLink(new Link('last', '#', (string) $pagination->getLastPage()));
         }
+
         for ($i = 1; $i <= $pagination->getLastPage(); ++$i) {
             $data->addLink('page-'.$i, $data->generateUrl('_index', ['page' => $i]), (string) $i);
         }
+
+        $data->addLink('new', $data->generateUrl('_new', []), 'Create');
 
         return $this;
     }
