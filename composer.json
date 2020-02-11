@@ -20,6 +20,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-mbstring": "*",
+        "laminas/laminas-code": "^3.4",
         "mazarini/tools-bundle": "^0.9|^1.0@dev",
         "symfony/flex": "^1.4"
     },
