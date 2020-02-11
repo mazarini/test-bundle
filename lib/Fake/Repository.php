@@ -19,41 +19,75 @@
 
 namespace Mazarini\TestBundle\Fake;
 
-use Mazarini\ToolsBundle\Pagination\Pagination;
+use Mazarini\ToolsBundle\Entity\EntityInterface;
 use Mazarini\ToolsBundle\Pagination\PaginationInterface;
+use Mazarini\ToolsBundle\Repository\EntityRepositoryAbstract;
+use ReflectionClass;
+use ReflectionProperty;
 
-class Repository
+class Repository extends EntityRepositoryAbstract
 {
-    public function getPage(int $currentPage = 1, int $totalCount = 60, int $pageSize = 10): PaginationInterface
+    /**
+     * @var int
+     */
+    protected $totalCount;
+
+    /**
+     * @var ReflectionProperty
+     */
+    protected $reflectionProperty;
+
+    public function __construct()
     {
-        /*
-         * No result
-         */
-        if (0 === $totalCount) {
-            return new Pagination(new \ArrayIterator([]), $currentPage, $totalCount, $pageSize);
+    }
+
+    public function getPage(int $currentPage = 1, int $totalCount = 60): PaginationInterface
+    {
+        $this->totalCount = $totalCount;
+
+        return parent::getPage($currentPage, 10);
+    }
+
+    /**
+     * find.
+     *
+     * @param int  $id
+     * @param bool $lockMode
+     * @param bool $lockVersion
+     */
+    public function find($id, $lockMode = null, $lockVersion = null): Entity
+    {
+        if (!isset($this->reflectionProperty)) {
+            $reflectionClass = new ReflectionClass(Entity::class);
+            $this->reflectionProperty = $reflectionClass->getProperty('id');
+            $this->reflectionProperty->setAccessible(true);
         }
-        /**
-         * Compute current page when < 1 or > last page.
-         */
-        $currentPage = Pagination::CURRENT_PAGE($currentPage, $pageSize, $totalCount);
-        /**
-         * Start position
-         * ie first id for test.
-         */
-        $first = (int) ($currentPage - 1) * $pageSize + 1;
-        /**
-         * Last position
-         * ie last id for test.
-         */
-        $last = (int) min($first + $pageSize - 1, $totalCount);
-        /**
-         * Create fake result remplacing database acces.
-         */
+        $entity = new Entity();
+        $this->reflectionProperty->setValue($entity, $id);
+
+        return $entity;
+    }
+
+    /*
+     * totalCount.
+     */
+    protected function totalCount(): int
+    {
+        return $this->totalCount;
+    }
+
+    /**
+     * getResult.
+     *
+     * @return array<int, EntityInterface>
+     */
+    protected function getResult(int $start, int $pageSize): array
+    {
         $entities = [];
-        for ($i = $first; $i <= $last; ++$i) {
-            $entities[$i] = new Entity($i);
+        for ($i = $start + 1; $i <= min($this->totalCount, $start + $pageSize); ++$i) {
+            $entities[] = $this->find($i);
         }
 
-        return new Pagination(new \ArrayIterator($entities), $currentPage, $totalCount, $pageSize);
+        return $entities;
     }
 }

@@ -36,7 +36,7 @@ class RepositoryTest extends TestCase
 
     public function testZeroEntities(): void
     {
-        $pagination = $this->repository->getPage(1, 0, 10);
+        $pagination = $this->repository->getPage(1, 0);
         $entities = $pagination->getEntities();
         $this->assertSame(\count($entities), 0);
     }
@@ -48,7 +48,7 @@ class RepositoryTest extends TestCase
      */
     public function testEntitiesCount(int $current, int $count): void
     {
-        $pagination = $this->repository->getPage($current, 25, 10);
+        $pagination = $this->repository->getPage($current, 25);
         $entities = $pagination->getEntities();
         $this->assertSame(\count($entities), $count);
     }
@@ -60,10 +60,15 @@ class RepositoryTest extends TestCase
      */
     public function testEntitiesId(int $current, int $first, int $last): void
     {
-        $pagination = $this->repository->getPage($current, 25, 10);
+        $pagination = $this->repository->getPage($current, 25);
         $entities = $pagination->getEntities();
-        $this->assertSame($entities[0]->getId(), $first);
-        $this->assertSame($entities[$last - $first]->getId(), $last);
+        foreach ([0 => $first, $last - $first => $last] as $i => $value) {
+            $entity = $entities[$i];
+            $this->assertTrue(null !== $entity, sprintf('$entity #%d  is not null', $i));
+            if (null !== $entity) {
+                $this->assertSame($entity->getId(), $value);
+            }
+        }
     }
 
     /**
@@ -74,9 +79,11 @@ class RepositoryTest extends TestCase
     public function provideCount(): \Traversable
     {
         // [current,count]
+        yield [0, 0];
         yield [1, 10];
         yield [2, 10];
         yield [3, 05];
+        yield [4, 0];
     }
 
     /**
@@ -87,11 +94,8 @@ class RepositoryTest extends TestCase
     public function provideId(): \Traversable
     {
         // [current,first,last]
-        yield [-1, 1, 10];
-        yield [0, 1, 10];
         yield [1, 1, 10];
         yield [2, 11, 20];
         yield [3, 21, 25];
-        yield [4, 21, 25];
     }
 }
