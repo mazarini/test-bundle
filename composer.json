@@ -22,13 +22,14 @@
         "ext-mbstring": "*",
         "laminas/laminas-code": "^3.4",
         "mazarini/tools-bundle": "^0.9|^1.0@dev",
-        "symfony/flex": "^1.4"
+        "symfony/flex": "^1.6"
     },
     "require-dev": {
-        "mazarini/package": "^1.0",
+        "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/orm": "^2.7",
+        "mazarini/package": "^1.1",
         "symfony/debug-pack": "^1.0",
         "symfony/maker-bundle": "^1.14",
-        "symfony/orm-pack": "^1.0",
         "symfony/test-pack": "^1.0"
     },
     "config": {

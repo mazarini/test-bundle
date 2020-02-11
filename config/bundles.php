@@ -27,4 +27,5 @@ return [
     Mazarini\TestBundle\MazariniTestBundle::class => ['dev' => true, 'test' => true],
     Mazarini\PackageBundle\MazariniPackageBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['test' => true],
 ];
