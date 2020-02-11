@@ -21,11 +21,15 @@ use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
+$dotEnvMethod = '';
 if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
     require dirname(__DIR__).'/config/bootstrap.php';
-} elseif (method_exists(Dotenv::class, 'bootEnv')) {
-    (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
-} elseif (method_exists(Dotenv::class, 'loadEnv')) {
-    // load all the .env files
-    (new Dotenv(false))->loadEnv(dirname(__DIR__).'/.env');
+} else {
+    $dotEnvMethod = 'bootEnv';
+}
+if (method_exists(Dotenv::class, $dotEnvMethod)) {
+    (new Dotenv())->$dotEnvMethod(dirname(__DIR__).'/.env');
+} else {
+    $dotEnvMethod = 'loadEnv';
+    (new Dotenv(false))->$dotEnvMethod(dirname(__DIR__).'/.env');
 }

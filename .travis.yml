@@ -9,13 +9,14 @@ cache:
 
 env:
   global:
-    - SYMFONY_PHPUNIT_DIR=./var/cache/phpunit
-    - SYMFONY_DEPRECATIONS_HELPER=0
-    - OPTION=
-    - INSTALL="update"
-    - SYNFONY=
-    - STABILITY=
+    - COMPOSER_MEMORY_LIMIT=-1
     - CONTROL=
+    - INSTALL="update"
+    - OPTION=
+    - SYMFONY=
+    - SYMFONY_DEPRECATIONS_HELPER=0
+    - SYMFONY_PHPUNIT_DIR=./var/cache/phpunit
+    - STABILITY=
 
 jobs:
   fast_finish: true
@@ -31,36 +32,35 @@ jobs:
       env: INSTALL="install"
     - php: nightly
       env: OPTION="nightly"
-           INSTALL="install"
+           STABILITY="dev"
 #   symfony version
     - php: 7.2
-      env: symfony="4.4.*"
+      env: SYMFONY="4.4.*"
+           SYMFONY_DEPRECATIONS_HELPER=999
     - php: 7.2
-      env: symfony="5.0.*"
+      env: INSTALL="install"
 #   symfony dev version
     - php: 7.2
-      env: symfony="4.4.*"
+      env: SYMFONY="4.4.*"
            STABILITY="dev"
     - php: 7.2
-      env: symfony="5.0.*"
-           STABILITY="dev"
+      env: STABILITY="dev"
     - php: 7.2
-      env: symfony="5.1.*"
+      env: SYMFONY="5.1.*"
            STABILITY="dev"
   allow_failures:
 #   PHP version dev version
     - php: nightly
       env: OPTION="nightly"
-           INSTALL="install"
+           STABILITY="dev"
 #   symfony dev version
     - php: 7.2
-      env: symfony="4.4.*"
+      env: SYMFONY="4.4.*"
            STABILITY="dev"
     - php: 7.2
-      env: symfony="5.0.*"
-           STABILITY="dev"
+      env: STABILITY="dev"
     - php: 7.2
-      env: symfony="5.1.*"
+      env: SYMFONY="5.1.*"
            STABILITY="dev"
 
 before_install:
@@ -76,7 +76,7 @@ install:
   - composer $INSTALL
   - ./bin/phpunit install
   - '[[ "$OPTION" == "" ]] || phpenv global $OPTION && php -v'
-
+  - cp var/data/origine.db var/data/sqlite.db
 script:
   - '[[ "$CONTROL" == "YES" ]] || ./bin/phpunit -v'
   - '[[ "$CONTROL" == "" ]] || ./bin/phpunit -v --coverage-text'

@@ -117,12 +117,14 @@ fixtures: dbreset
 clean:
 	bin/console cache:clear --env=test
 	bin/console cache:clear --env=dev
+	cp var/data/origine.db var/data/sqlite.db
 
 test:
-	vendor/bin/simple-phpunit -v
+	cp var/data/origine.db var/data/sqlite.db
+	bin/phpunit -v
 
 cover-text: clean
-	vendor/bin/simple-phpunit -v --coverage-text
+	bin/phpunit -v --coverage-text
 
 cover: clean
-	vendor/bin/simple-phpunit --coverage-html var/test-coverage
+	bin/phpunit --coverage-html var/test-coverage
