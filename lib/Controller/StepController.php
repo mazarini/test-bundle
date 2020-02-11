@@ -61,12 +61,12 @@ class StepController extends AbstractController
     /**
      * __construct.
      */
-    public function __construct(RequestStack $requestStack, Folder $folder, string $baseRoute = 'step')
+    public function __construct(RequestStack $requestStack, Folder $folder)
     {
+        parent::__construct($requestStack, new UrlGenerator());
+
         $this->parameters['steps'] = $this->steps = $folder->getSteps();
         $this->folder = $folder;
-
-        parent::__construct($requestStack, new UrlGenerator(), $baseRoute);
 
         $this->parameters['symfony']['version'] = Kernel::VERSION;
         $this->parameters['php']['version'] = PHP_VERSION;
@@ -84,7 +84,7 @@ class StepController extends AbstractController
 
         $this->parameters['dataPagination'] = $dataPagination = new Data(new UrlGenerator(), 'page', 'index', '#page_index-3');
         $repository = new Repository();
-        $dataPagination->setPagination($repository->getPage(3, 50, 10));
+        $dataPagination->setPagination($repository->getPage(3, 50));
         $this->setListUrl($dataPagination, ['_show' => 'Show', '_edit' => 'Edit']);
         $this->setPaginationUrl($dataPagination);
 
@@ -144,7 +144,7 @@ class StepController extends AbstractController
         $parameters['step'] = $this->step = $step;
         $parameters['page'] = $this->page = $page;
 
-        return $this->dataRender('step/'.$this->steps[$step].'/'.$this->pages[$page], $parameters);
+        return $this->dataRender($this->steps[$step].'/'.$this->pages[$page], $parameters);
     }
 
     /**
@@ -212,17 +212,15 @@ class StepController extends AbstractController
         return $this;
     }
 
-    protected function initUrl(Data $data): AbstractController
+    protected function initUrl(Data $data): void
     {
         $data->getLinks()->addLink(new Link('active', '', 'Active'));
         $data->getLinks()->addLink(new Link('disable', '#', 'Disable'));
         $data->getLinks()->addLink(new Link('current', '/Data/Links.html', 'Current'));
         $data->getLinks()->addLink(new Link('normal', '/normal', 'Normal'));
-
-        return $this;
     }
 
-    protected function initMenu(LinkTree $menu): AbstractController
+    protected function initMenu(LinkTree $menu): void
     {
         foreach (array_keys($this->steps) as $step) {
             if ($step === $this->step) {
@@ -231,17 +229,15 @@ class StepController extends AbstractController
                 $menu[$step] = $link;
                 foreach (array_keys($this->pages) as $page) {
                     if ($page === $this->page) {
-                        $menu[$step][$page] = new Link($page, '');
+                        $link[$page] = new Link($page, '');
                     } else {
-                        $menu[$step][$page] = new Link($page, $this->generateUrl('step_index', ['step' => $step, 'page' => $page]));
+                        $link[$page] = new Link($page, $this->generateUrl('step_index', ['step' => $step, 'page' => $page]));
                     }
                 }
             } else {
                 $menu[$step] = new Link($step, $this->generateUrl('step_home_step', ['step' => $step]));
             }
         }
-
-        return $this;
     }
 
     protected function getLinks(string $name, int $count = 5): Links
