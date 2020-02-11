@@ -1,3 +1,6 @@
+{% use 'base/stylesheets.html.twig' %}
+{% use 'base/body.html.twig' %}
+{% use 'base/javascripts.html.twig' %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -5,41 +8,18 @@
 		<title>
 			{% block head_title %}
 				Welcome!
-			{% endblock %}
+			{% endblock head_title %}
 		</title>
 		{% block stylesheets %}
-			<link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
-			<style>
-				body {
-					padding: 15px;
-				}
-				table {
-					margin-bottom: 16px;
-				}
-				th,
-				td {
-					padding: 0 10px;
-					border: 1px solid;
-				}
-			</style>
-		{% endblock %}
+			{{ parent() }}
+		{% endblock stylesheets %}
 	</head>
 	<body>
 		{% block body %}
-			<div class="container">
-				<div class="row">
-					<div class="col-3">
-						{% block menu %}{% endblock menu %}
-					</div>
-					<div class="col-9">
-						<h1>
-							{% block title %}{% endblock %}
-						</h1>
-						{% block content %}{% endblock %}
-					</div>
-				</div>
-			</div>
-		{% endblock %}
-		{% block javascripts %}{% endblock %}
+			{{ parent() }}
+		{% endblock body %}
+		{% block javascripts %}
+			{{ parent() }}
+		{% endblock javascripts %}
 	</body>
-</html></body></html>
+</html>
