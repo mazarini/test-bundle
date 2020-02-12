@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (C) 2019 Mazarini <mazarini@protonmail.com>.
+ * Copyright (C) 2019-2020 Mazarini <mazarini@protonmail.com>.
  * This file is part of mazarini/test-bundle.
  *
  * mazarini/test-bundle is free software: you can redistribute it and/or
