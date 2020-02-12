@@ -19,7 +19,6 @@
 
 namespace Mazarini\TestBundle\Controller;
 
-use Mazarini\TestBundle\Fake\Entity;
 use Mazarini\TestBundle\Fake\Repository;
 use Mazarini\TestBundle\Fake\UrlGenerator;
 use Mazarini\TestBundle\Tool\Folder;
@@ -63,10 +62,10 @@ class StepController extends AbstractController
      */
     public function __construct(RequestStack $requestStack, Folder $folder)
     {
-        parent::__construct($requestStack, new UrlGenerator());
-
         $this->parameters['steps'] = $this->steps = $folder->getSteps();
         $this->folder = $folder;
+
+        parent::__construct($requestStack, new UrlGenerator());
 
         $this->parameters['symfony']['version'] = Kernel::VERSION;
         $this->parameters['php']['version'] = PHP_VERSION;
@@ -82,15 +81,8 @@ class StepController extends AbstractController
         $tree['item-2'] = $this->getTree('Item-2', 'item-2', 2);
         $tree['item-4'] = $this->getTree('Item-4', 'item-4', 2);
 
-        $this->parameters['dataPagination'] = $dataPagination = new Data(new UrlGenerator(), 'page', 'index', '#page_index-3');
-        $repository = new Repository();
-        $dataPagination->setPagination($repository->getPage(3, 50));
-        $this->setListUrl($dataPagination, ['_show' => 'Show', '_edit' => 'Edit']);
-        $this->setPaginationUrl($dataPagination);
-
-        $this->parameters['dataCrud'] = $dataCrud = new Data(new UrlGenerator(), 'crud', 'show', '#crud_show-1');
-        $dataCrud->setEntity(new Entity(1));
-        $this->setCrudUrl($dataCrud);
+        $this->parameters['dataPagination'] = $this->getPaginationData(3, 50);
+        $this->parameters['dataCrud'] = $this->getCrudData(1);
     }
 
     /**
@@ -147,80 +139,15 @@ class StepController extends AbstractController
         return $this->dataRender($this->steps[$step].'/'.$this->pages[$page], $parameters);
     }
 
-    /**
-     * listUrl.
-     *
-     * @param array<string,string> $actions
-     */
-    protected function setListUrl(Data $data, array $actions): AbstractController
+    protected function beforeRender(string $action): void
     {
-        foreach ($data->getEntities() as $entity) {
-            $id = $entity->getId();
-            $parameters = ['id' => $id];
-            foreach ($actions as $action => $label) {
-                $data->addLink(trim($action, '_').'-'.$id, $data->generateUrl($action, $parameters), $label);
-            }
-        }
-
-        return $this;
+        $this->data->getLinks()->addLink(new Link('active', '', 'Active'));
+        $this->data->getLinks()->addLink(new Link('disable', '#', 'Disable'));
+        $this->data->getLinks()->addLink(new Link('current', '/Data/Links.html', 'Current'));
+        $this->data->getLinks()->addLink(new Link('normal', '/normal', 'Normal'));
     }
 
-    protected function setPaginationUrl(Data $data): AbstractController
-    {
-        $pagination = $data->getPagination();
-
-        if ($pagination->hasPreviousPage()) {
-            $data->addLink('first', $data->generateUrl('_index', ['page' => 1]), '1');
-            $data->addLink('previous', $data->generateUrl('_index', ['page' => $pagination->getCurrentPage() - 1]), 'Previous');
-        } else {
-            $data->getLinks()->addLink(new Link('first', '#', '1'));
-            $data->getLinks()->addLink(new Link('previous', '#', 'Previous'));
-        }
-
-        if ($pagination->hasNextPage()) {
-            $last = $pagination->getLastPage();
-            $data->addLink('next', $data->generateUrl('_index', ['page' => $pagination->getCurrentPage() + 1]), 'Next');
-            $data->addLink('last', $data->generateUrl('_index', ['page' => $last]), (string) $last);
-        } else {
-            $data->getLinks()->addLink(new Link('next', '#', 'Next'));
-            $data->getLinks()->addLink(new Link('last', '#', (string) $pagination->getLastPage()));
-        }
-
-        for ($i = 1; $i <= $pagination->getLastPage(); ++$i) {
-            $data->addLink('page-'.$i, $data->generateUrl('_index', ['page' => $i]), (string) $i);
-        }
-
-        $data->addLink('new', $data->generateUrl('_new', []), 'Create');
-
-        return $this;
-    }
-
-    protected function setCrudUrl(Data $data): AbstractController
-    {
-        if ($data->isSetEntity()) {
-            $id = $data->getEntity()->getId();
-            if (0 !== $id) {
-                $parameters = ['id' => $id];
-                foreach (['_edit' => 'Edit', '_show' => 'Show', '_delete' => 'Delete'] as $action => $label) {
-                    $data->addLink(trim($action, '_'), $data->generateUrl($action, $parameters), $label);
-                }
-            }
-        }
-        $data->addLink('new', $data->generateUrl('_new', []), 'Create');
-        $data->addLink('index', $data->generateUrl('_index', ['page' => 1]), 'List');
-
-        return $this;
-    }
-
-    protected function initUrl(Data $data): void
-    {
-        $data->getLinks()->addLink(new Link('active', '', 'Active'));
-        $data->getLinks()->addLink(new Link('disable', '#', 'Disable'));
-        $data->getLinks()->addLink(new Link('current', '/Data/Links.html', 'Current'));
-        $data->getLinks()->addLink(new Link('normal', '/normal', 'Normal'));
-    }
-
-    protected function initMenu(LinkTree $menu): void
+    protected function setMenu(LinkTree $menu): void
     {
         foreach (array_keys($this->steps) as $step) {
             if ($step === $this->step) {
@@ -262,5 +189,24 @@ class StepController extends AbstractController
         }
 
         return $tree;
+    }
+
+    protected function getCrudData(int $id): Data
+    {
+        $data = new Data(new UrlGenerator(), 'crud', 'show', sprintf('#crud_show-%d', $id));
+        $data->setEntity((new Repository())->Find($id));
+        $this->setUrl($data);
+
+        return $data;
+    }
+
+    protected function getPaginationData(int $pageCourante, int $nbEntity): Data
+    {
+        $data = new Data(new UrlGenerator(), 'crud', 'page', sprintf('#crud_page-%d', $pageCourante));
+        $repository = new Repository();
+        $data->setPagination($repository->getPage($pageCourante, $nbEntity));
+        $this->setUrl($data);
+
+        return $data;
     }
 }
