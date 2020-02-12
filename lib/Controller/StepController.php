@@ -21,6 +21,7 @@ namespace Mazarini\TestBundle\Controller;
 
 use Mazarini\TestBundle\Fake\Repository;
 use Mazarini\TestBundle\Fake\UrlGenerator;
+use Mazarini\TestBundle\Tool\Factory;
 use Mazarini\TestBundle\Tool\Folder;
 use Mazarini\ToolsBundle\Controller\AbstractController;
 use Mazarini\ToolsBundle\Data\Data;
@@ -38,6 +39,12 @@ class StepController extends AbstractController
      * @var Folder
      */
     protected $folder;
+
+    /**
+     * @var Factory
+     */
+    protected $fakeFactory;
+
     /**
      * @var array<string,string>
      */
@@ -47,6 +54,7 @@ class StepController extends AbstractController
      * @var string
      */
     protected $step = '';
+
     /**
      * @var array<string,string>
      */
@@ -60,29 +68,12 @@ class StepController extends AbstractController
     /**
      * __construct.
      */
-    public function __construct(RequestStack $requestStack, Folder $folder)
+    public function __construct(RequestStack $requestStack, Factory $fakeFactory, Folder $folder)
     {
-        $this->parameters['steps'] = $this->steps = $folder->getSteps();
         $this->folder = $folder;
+        $this->fakeFactory = $fakeFactory;
 
         parent::__construct($requestStack, new UrlGenerator());
-
-        $this->parameters['symfony']['version'] = Kernel::VERSION;
-        $this->parameters['php']['version'] = PHP_VERSION;
-        $this->parameters['php']['extensions'] = get_loaded_extensions();
-
-        $this->parameters['list'] = $this->getLinks('item', 7);
-        $this->parameters['list']['item-2'] = new Link('item-2', '#', 'Disable');
-
-        $this->parameters['tree'] = $tree = $this->getTree('Tree', 'item', 5);
-        $tree['item-1'] = $item1 = $this->getTree('Item-1', 'item-1', 2);
-        $item1['item-1-1'] = $this->getTree('Item-1-1', 'item-1-1', 3);
-        $item1['item-1-2'] = $this->getTree('Item-1-2', 'item-1-2', 2);
-        $tree['item-2'] = $this->getTree('Item-2', 'item-2', 2);
-        $tree['item-4'] = $this->getTree('Item-4', 'item-4', 2);
-
-        $this->parameters['dataPagination'] = $this->getPaginationData(3, 50);
-        $this->parameters['dataCrud'] = $this->getCrudData(1);
     }
 
     /**
@@ -137,14 +128,6 @@ class StepController extends AbstractController
         $parameters['page'] = $this->page = $page;
 
         return $this->dataRender($this->steps[$step].'/'.$this->pages[$page], $parameters);
-    }
-
-    protected function beforeRender(string $action): void
-    {
-        $this->data->getLinks()->addLink(new Link('active', '', 'Active'));
-        $this->data->getLinks()->addLink(new Link('disable', '#', 'Disable'));
-        $this->data->getLinks()->addLink(new Link('current', '/Data/Links.html', 'Current'));
-        $this->data->getLinks()->addLink(new Link('normal', '/normal', 'Normal'));
     }
 
     protected function setMenu(LinkTree $menu): void
@@ -208,5 +191,38 @@ class StepController extends AbstractController
         $this->setUrl($data);
 
         return $data;
+    }
+
+    protected function beforeAction(string $action): void
+    {
+        $this->parameters['steps'] = $this->steps = $this->folder->getSteps();
+    }
+
+    protected function afterAction(string $action): void
+    {
+        $this->data->getLinks()->addLink(new Link('active', '', 'Active'));
+        $this->data->getLinks()->addLink(new Link('disable', '#', 'Disable'));
+        $this->data->getLinks()->addLink(new Link('current', '/Data/Links.html', 'Current'));
+        $this->data->getLinks()->addLink(new Link('normal', '/normal', 'Normal'));
+        $this->parameters['symfony']['version'] = Kernel::VERSION;
+        $this->parameters['php']['version'] = PHP_VERSION;
+        $this->parameters['php']['extensions'] = get_loaded_extensions();
+
+        $this->parameters['list'] = $this->getLinks('item', 7);
+        $this->parameters['list']['item-2'] = new Link('item-2', '#', 'Disable');
+
+        $this->parameters['tree'] = $tree = $this->getTree('Tree', 'item', 5);
+        $tree['item-1'] = $item1 = $this->getTree('Item-1', 'item-1', 2);
+        $item1['item-1-1'] = $this->getTree('Item-1-1', 'item-1-1', 3);
+        $item1['item-1-2'] = $this->getTree('Item-1-2', 'item-1-2', 2);
+        $tree['item-2'] = $this->getTree('Item-2', 'item-2', 2);
+        $tree['item-4'] = $this->getTree('Item-4', 'item-4', 2);
+
+        $this->parameters['dataPagination'] = $this->fakeFactory->getPaginationData();
+        $this->parameters['dataCrud'] = $this->fakeFactory->getCrudData();
+    }
+
+    protected function beforeRender(string $action): void
+    {
     }
 }
