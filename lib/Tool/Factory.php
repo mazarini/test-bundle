@@ -26,6 +26,9 @@ use Mazarini\ToolsBundle\Controller\CrudUrlTrait;
 use Mazarini\ToolsBundle\Controller\ListUrlTrait;
 use Mazarini\ToolsBundle\Controller\PageUrlTrait;
 use Mazarini\ToolsBundle\Data\Data;
+use Mazarini\ToolsBundle\Data\Link;
+use Mazarini\ToolsBundle\Data\Links;
+use Mazarini\ToolsBundle\Data\LinkTree;
 use Mazarini\ToolsBundle\Pagination\Pagination;
 use Mazarini\ToolsBundle\Pagination\PaginationInterface;
 
@@ -62,6 +65,40 @@ class Factory
     public function getEntity(int $id = 0): Entity
     {
         return $this->getRepository()->find($id);
+    }
+
+    public function getLinks(string $name, int $count = 5): Links
+    {
+        $links = new Links('#'.$name.'-1');
+        $name .= '-';
+        for ($i = 1; $i <= $count; ++$i) {
+            $key = $name.$i;
+            $links->addLink(new Link($key, '#'.$key));
+        }
+
+        return $links;
+    }
+
+    public function getTree(string $label, string $name, int $count = 5): LinkTree
+    {
+        $tree = new LinkTree($name, $label);
+        $name .= '-';
+        for ($i = 1; $i <= $count; ++$i) {
+            $key = $name.$i;
+            $tree->addLink(new Link($key, '#'.$key));
+        }
+
+        return $tree;
+    }
+
+    public function getLinksData(): Data
+    {
+        $data = new Data($this->getUrlGenerator(), 'links', 'button', '/current');
+        $data->addLink('normal', '/normal', 'Normal');
+        $data->addLink('disable', '#', 'Disable');
+        $data->addLink('active', '/current', 'Active');
+
+        return $data;
     }
 
     public function getData(string $route = 'crud_page', ?Entity $entity = null, ?PaginationInterface $pagination = null): Data
