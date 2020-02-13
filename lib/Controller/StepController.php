@@ -157,7 +157,7 @@ class StepController extends TestControllerAbstract
         $tree['item-2'] = $this->fakeFactory->getTree('Item-2', 'item-2', 2);
         $tree['item-4'] = $this->fakeFactory->getTree('Item-4', 'item-4', 2);
 
-        $this->parameters['List'] = $this->fakeFactory->getLinks('item', 7);
+        $this->parameters['list'] = $this->fakeFactory->getLinks('item', 7);
         $this->parameters['list']['item-2'] = new Link('item-2', '#', 'Disable');
         $this->parameters['list']['item-6'] = new Link('item-6', '', 'Active');
 

@@ -19,4 +19,8 @@
 		</tr>
 		{% include 'step/tree.html.twig' with {'items': tree} only %}
 	</table>
+	<div class="list-group accordion show" id="tree">
+		{% include '@MazariniTest/menu.html.twig' with {'items': tree, 'accordion': 'tree'} only %}
+	</div>
+
 {% endblock %}
