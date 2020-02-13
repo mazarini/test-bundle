@@ -1,18 +1,9 @@
-{% extends "base.html.twig" %}
+{% extends "@MazariniTest/layout.html.twig" %}
 
 {% block head_title %}
-	{{ step }}
-	-
-	{{ page }}
-{% endblock %}
+	{{ step }}-{{ page }}
+{% endblock head_title %}
 
 {% block title %}
-	{{ step }}
-	-
-	{{ page }}
-{% endblock %}
-
-{% block menu %}
-	{% include '@MazariniTest/step/menu.html.twig'  with {'items': menu} only %}
-	{% include '@MazariniTest/step/menu.html.twig'  with {'items': menu[step]} only %}
-{% endblock %}
+{{ step }}-{{ page }}
+{% endblock title %}

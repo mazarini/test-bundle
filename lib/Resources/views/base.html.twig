@@ -1,0 +1,21 @@
+{% use '@MazariniTest/base/stylesheets.html.twig' %}
+{% use '@MazariniTest/base/body.html.twig' %}
+{% use '@MazariniTest/base/javascripts.html.twig' %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{%- block head_title %}{% endblock head_title -%}
+		</title>
+		{% block stylesheets %}{{ parent() }}{% endblock stylesheets %}
+	</head>
+	<body>
+		{% block static %}{% endblock static %}
+		<div class="container">
+        	{% block body %}{{ parent() }}{% endblock body %}
+		</div>
+		{% block javascripts %}{{ parent() }}{% endblock javascripts %}
+		{% block modal %}{% endblock modal %}
+	</body>
+</html>

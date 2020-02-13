@@ -1,12 +1,16 @@
-<div class="list-group mb-3">
+<div class="list-group mb-1 mt-1">
 	<a class="list-group-item list-group-item-action list-group-item-dark">
 		{{ items.label }}
 	</a>
 	{% embed '@MazariniTools/iterative.html.twig' %}
 		{% block item_container %}
+			{% if item is iterable %}
+			    {% include '@MazariniTest/menu.html.twig'  with {'items': item} only %}
+			{% else %}
 			<a href="{{ item.url }}" class="list-group-item list-group-item-action{{ item.class }}">
 				{{ item.label }}
 			</a>
+			{% endif %}
 		{% endblock item_container %}
 	{% endembed %}
 </div>

@@ -1,0 +1,5 @@
+{% extends "@MazariniTest/base.html.twig" %}
+
+{% block first_bar_container %}
+	{% include '@MazariniTest/menu.html.twig'  with {'items': menu} only %}
+{% endblock first_bar_container %}
