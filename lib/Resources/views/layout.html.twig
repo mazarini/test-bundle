@@ -1,5 +1,7 @@
 {% extends "@MazariniTest/base.html.twig" %}
 
 {% block first_bar_container %}
-	{% include '@MazariniTest/menu.html.twig'  with {'items': menu} only %}
+	<div class="list-group accordion show" id="menu">
+		{% include '@MazariniTest/menu.html.twig' with {'items': menu, 'accordion': 'menu'} only %}
+	</div>
 {% endblock first_bar_container %}

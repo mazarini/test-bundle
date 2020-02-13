@@ -121,19 +121,20 @@ class StepController extends TestControllerAbstract
     protected function setMenu(LinkTree $menu): void
     {
         foreach (array_keys($this->steps) as $step) {
+            $link = new LinkTree($step);
+            $menu[$step] = $link;
             if ($step === $this->step) {
-                $link = new LinkTree($step);
                 $link->active();
-                $menu[$step] = $link;
-                foreach (array_keys($this->pages) as $page) {
-                    if ($page === $this->page) {
-                        $link[$page] = new Link($page, '');
-                    } else {
-                        $link[$page] = new Link($page, $this->generateUrl('step_index', ['step' => $step, 'page' => $page]));
-                    }
-                }
+                $pages = $this->pages;
             } else {
-                $menu[$step] = new Link($step, $this->generateUrl('step_home_step', ['step' => $step]));
+                $pages = $this->folder->getPages($this->steps[$step]);
+            }
+            foreach (array_keys($pages) as $page) {
+                if (($page === $this->page) && ($step === $this->step)) {
+                    $link[$page] = new Link($page, '');
+                } else {
+                    $link[$page] = new Link($page, $this->generateUrl('step_index', ['step' => $step, 'page' => $page]));
+                }
             }
         }
     }
