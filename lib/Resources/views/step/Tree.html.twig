@@ -2,21 +2,5 @@
 
 {% block content %}
 	{{ dump(tree) }}
-	<table>
-		<tr>
-			<th>
-				Key
-			</th>
-			<th>
-				Url
-			</th>
-			<th>
-				Class
-			</th>
-			<th>
-				Label
-			</th>
-		</tr>
-		{% include '@MazariniTest/tree.html.twig' with {'items': tree} only %}
-	</table>
+	{% include '@MazariniTest/tree.html.twig' with {'items': tree} only %}
 {% endblock %}

@@ -2,4 +2,33 @@
 
 {% block content %}
 	{{ dump(currentData) }}
+	<table class="table">
+		<tr>
+			<td>Route :</td>
+			<td>{{ currentData.route }}</td>
+		</tr>
+		<tr>
+			<td>Url :</td>
+			<td>{{ currentData.links.current.url }}</td>
+		</tr>
+		<tr>
+			<td>Entity :</td>
+			<td>{{ currentData.isSetEntity ? 'Yes' : 'No' }}</td>
+		</tr>
+		<tr>
+			<td>Pagination :</td>
+			<td>{{ currentData.isSetEntities ? currentData.pagination.currentPage ~ ' / ' ~ currentData.pagination.LastPage : 'No' }}</td>
+		</tr>
+		<tr>
+			<td>Entities :</td>
+			<td>{{ currentData.isSetEntities ? currentData.entities.count ~ ' entities / ' ~ currentData.pagination.totalCount : 'No' }}</td>
+		</tr>
+		<tr>
+			<td>Links :</td>
+			<td>
+				{{ currentData.links|length }}
+				links
+			</td>
+		</tr>
+	</table>
 {% endblock %}

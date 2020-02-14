@@ -1,22 +1,11 @@
-{% for key,item in items %}
-	{# evaluates to true if the foo variable is iterable #}
-	{% if item is iterable %}
-		<tr>
-			<td>{{ key }}</td>
-			<td colspan="3">begin iterable : "{{ item.label }}"</td>
-		</tr>
-		{% include '@MazariniTest/tree.html.twig' with {'items': item} only %}
-		<tr>
-			<td>{{ key }}</td>
-			<td colspan="3">end iterable : "{{ item.label }}"</td>
-		</tr>
-	{% else %}
-		{# users is probably a string #}
-		<tr>
-			<td>{{ key }}</td>
-			<td>{{ item.url }}</td>
-			<td>{{ item.class }}</td>
-			<td>{{ item.label }}</td>
-		</tr>
-	{% endif %}
-{% endfor %}
+<ul>
+	{% for key,item in items %}
+		{% if item is iterable %}
+			<li>{{ key }}/{{ item.label }}</li>
+			{% include '@MazariniTest/tree.html.twig' with {'items': item} only %}
+		{% else %}
+			{# users is probably a string #}
+			<li>{{ key }}/{{ item.label }}/{{ item.url }}</li>
+		{% endif %}
+	{% endfor %}
+</ul>

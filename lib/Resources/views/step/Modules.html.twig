@@ -1,13 +1,11 @@
 {% extends '@MazariniTest/step/layout.html.twig' %}
 
 {% block content %}
-	<ul>
+	<div class="row">
 		{% embed '@MazariniTools/iterative.html.twig' with {'items': php.extensions} %}
 			{% block item_container %}
-				<li>
-					{{ item }}
-				</li>
+				<div class="col-4">{{ item }}</div>
 			{% endblock item_container %}
 		{% endembed %}
-	</ul>
+	</div>
 {% endblock %}

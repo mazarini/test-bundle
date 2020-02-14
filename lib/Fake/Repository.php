@@ -64,6 +64,9 @@ class Repository extends EntityRepositoryAbstract
         }
         $entity = new Entity();
         $this->reflectionProperty->setValue($entity, $id);
+        if (method_exists($entity, 'init')) {
+            $entity->init();
+        }
 
         return $entity;
     }

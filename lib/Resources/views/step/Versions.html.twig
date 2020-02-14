@@ -1,14 +1,14 @@
 {% extends '@MazariniTest/step/layout.html.twig' %}
 
 {% block content %}
-	<ul>
-		<li>
-			PHP :
-			{{ php.version }}
-		</li>
-		<li>
-			Symfony :
-			{{ symfony.version }}
-		</li>
-	</ul>
+	<table class="table">
+		<tr>
+			<th>PHP :</th>
+			<td>{{ php.version }}</td>
+		</tr>
+		<tr>
+			<th>Symfony :</th>
+			<td>{{ symfony.version }}</td>
+		</tr>
+	</table>
 {% endblock %}

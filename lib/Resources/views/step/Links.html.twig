@@ -2,7 +2,8 @@
 
 {% block content %}
 	{{ dump(currentLinks) }}
-	<table>
+
+	<table class="table">
 		{% embed '@MazariniTools/iterative.html.twig' with {'items': currentLinks} only %}
 			{% block header_container %}
 				<tr>
@@ -19,6 +20,12 @@
 						Label
 					</th>
 				</tr>
+				<tr>
+					<td>(current url)</td>
+					<td>{{ items.current.url }}</td>
+					<td>{{ items.current.class }}</td>
+					<td>{{ items.current.label }}</td>
+				</tr>
 			{% endblock header_container %}
 			{% block item_container %}
 				<tr>
@@ -30,7 +37,7 @@
 			{% endblock item_container %}
 			{% block empty_container %}
 				<tr>
-					<td colspan="4">Empty</td>
+					<td colspan="4">No link available</td>
 				</tr>
 			{% endblock empty_container %}
 		{% endembed %}

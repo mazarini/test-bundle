@@ -42,9 +42,9 @@ class Factory
     protected function setUrl(Data $data): void
     {
         $this->setCrudUrl($data);
-        $this->setListUrl($data);
-        $this->setPageUrl($data);
         $this->setNewUrl($data);
+        $this->setPageUrl($data);
+        $this->setListUrl($data);
     }
 
     // Todo put in a sigle trait (end)
@@ -69,7 +69,7 @@ class Factory
 
     public function getLinks(string $name, int $count = 5): Links
     {
-        $links = new Links('#'.$name.'-1');
+        $links = new Links('#'.$name.'-2');
         $name .= '-';
         for ($i = 1; $i <= $count; ++$i) {
             $key = $name.$i;

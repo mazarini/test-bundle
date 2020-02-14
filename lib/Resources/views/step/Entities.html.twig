@@ -2,22 +2,25 @@
 
 {% block content %}
 	{{ dump(currentEntities) }}
-	<table>
-		<tr>
-			<th>
-				Key
-			</th>
-			<th>
-				Id
-			</th>
-			<th>
-				Col 1
-			</th>
-			<th>
-				Col 9
-			</th>
-		</tr>
+	<table class="table">
+
 		{% embed '@MazariniTools/iterative.html.twig' with {'items': currentEntities} %}
+			{% block header_container %}
+				<tr>
+					<th>
+						Key
+					</th>
+					<th>
+						Id
+					</th>
+					<th>
+						Col 1
+					</th>
+					<th>
+						Col 9
+					</th>
+				</tr>
+			{% endblock header_container %}
 			{% block item_container %}
 				<tr>
 					<td>{{ key }}</td>

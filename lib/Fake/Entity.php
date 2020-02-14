@@ -41,6 +41,31 @@ class Entity extends \ArrayIterator implements EntityInterface
         parent::__construct($array);
     }
 
+    /**
+     * offsetGet.
+     *
+     * @param string|int $offset
+     *
+     * @return string|int
+     */
+    public function offsetGet($offset)
+    {
+        if ('id' === $offset) {
+            return $this->id;
+        }
+
+        return parent::offsetGet($offset);
+    }
+
+    public function init(): self
+    {
+        for ($i = 1; $i <= 9; ++$i) {
+            $this[$i] = $this->get($i);
+        }
+
+        return $this;
+    }
+
     public function getCol1(): string
     {
         return $this->get(1);
