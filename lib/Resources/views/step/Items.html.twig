@@ -1,29 +1,21 @@
 {% extends '@MazariniTest/step/layout.html.twig' %}
 
 {% block content %}
-	{{ dump(dataPagination.entities) }}
+	{{ dump(items) }}
 	<table>
 		<tr>
 			<th>
 				Key
 			</th>
 			<th>
-				Id
-			</th>
-			<th>
-				Col 1
-			</th>
-			<th>
-				Col 9
+				Value
 			</th>
 		</tr>
-		{% embed '@MazariniTools/iterative.html.twig' with {'items': dataPagination.entities} %}
+		{% embed '@MazariniTools/iterative.html.twig' with {'items': items} only %}
 			{% block item_container %}
 				<tr>
 					<td>{{ key }}</td>
-					<td>{{ item.id }}</td>
-					<td>{{ item.col1 }}</td>
-					<td>{{ item.col9 }}</td>
+					<td>{{ item }}</td>
 				</tr>
 			{% endblock item_container %}
 		{% endembed %}

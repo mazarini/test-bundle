@@ -1,0 +1,38 @@
+{% extends '@MazariniTest/step/layout.html.twig' %}
+
+{% block content %}
+	{{ dump(currentLinks) }}
+	<table>
+		{% embed '@MazariniTools/iterative.html.twig' with {'items': currentLinks} only %}
+			{% block header_container %}
+				<tr>
+					<th>
+						Key
+					</th>
+					<th>
+						Url
+					</th>
+					<th>
+						Class
+					</th>
+					<th>
+						Label
+					</th>
+				</tr>
+			{% endblock header_container %}
+			{% block item_container %}
+				<tr>
+					<td>{{ key }}</td>
+					<td>{{ item.url }}</td>
+					<td>{{ item.class }}</td>
+					<td>{{ item.label }}</td>
+				</tr>
+			{% endblock item_container %}
+			{% block empty_container %}
+				<tr>
+					<td colspan="4">Empty</td>
+				</tr>
+			{% endblock empty_container %}
+		{% endembed %}
+	</table>
+{% endblock %}

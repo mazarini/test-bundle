@@ -1,13 +1,1 @@
-{% extends '@MazariniTest/step/layout.html.twig' %}
-
-{% block content %}
-	<ul>
-		{% embed '@MazariniTools/iterative.html.twig' with {'items': php.extensions} %}
-			{% block item_container %}
-				<li>
-					{{ item }}
-				</li>
-			{% endblock item_container %}
-		{% endembed %}
-	</ul>
-{% endblock %}
+{% include '@MazariniTest/step/Modules PHP.html.twig' %}

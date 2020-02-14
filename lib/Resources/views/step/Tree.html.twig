@@ -1,7 +1,7 @@
 {% extends '@MazariniTest/step/layout.html.twig' %}
 
 {% block content %}
-	{{ dump(data.links) }}
+	{{ dump(tree) }}
 	<table>
 		<tr>
 			<th>
@@ -17,6 +17,6 @@
 				Label
 			</th>
 		</tr>
-		{% include 'step/tree.html.twig' with {'items': data.links} only %}
+		{% include '@MazariniTest/tree.html.twig' with {'items': tree} only %}
 	</table>
 {% endblock %}

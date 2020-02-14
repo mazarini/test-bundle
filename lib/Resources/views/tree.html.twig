@@ -5,7 +5,7 @@
 			<td>{{ key }}</td>
 			<td colspan="3">begin iterable : "{{ item.label }}"</td>
 		</tr>
-		{% include 'step/tree.html.twig' with {'items': item} only %}
+		{% include '@MazariniTest/tree.html.twig' with {'items': item} only %}
 		<tr>
 			<td>{{ key }}</td>
 			<td colspan="3">end iterable : "{{ item.label }}"</td>
