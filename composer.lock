@@ -183,12 +183,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mazarini/tools-bundle.git",
-                "reference": "91e63486581a2e048eb3af9d9d421231a18d8e55"
+                "reference": "5ab0e1a38810492242c45f2fe3994092415798a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/91e63486581a2e048eb3af9d9d421231a18d8e55",
-                "reference": "91e63486581a2e048eb3af9d9d421231a18d8e55",
+                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/5ab0e1a38810492242c45f2fe3994092415798a2",
+                "reference": "5ab0e1a38810492242c45f2fe3994092415798a2",
                 "shasum": ""
             },
             "require": {
@@ -243,7 +243,7 @@
                 "symfony",
                 "toolset"
             ],
-            "time": "2020-02-14T10:47:18+00:00"
+            "time": "2020-02-14T16:30:23+00:00"
         },
         {
             "name": "symfony/flex",
