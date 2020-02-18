@@ -7,7 +7,7 @@
 			&dArr;
 		</a>
 		<div id="{{ key }}" class="list-group collapse{% if item.class == ' active' %} show{% endif %}" data-parent="#{{ accordion }}">
-			{% embed '@MazariniTest/menu.html.twig' with {'items': item, 'accordion': key} only %}{% endembed %}
+			{% embed '@MazariniBootstrap/menu.html.twig' with {'items': item, 'accordion': key} only %}{% endembed %}
 		</div>
 	{% else %}
 		<a href="{{ item.url }}" class="list-group-item list-group-item-action list-group-item-light{{ item.class }}">

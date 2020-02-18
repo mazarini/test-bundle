@@ -2,7 +2,7 @@
 	{% for key,item in items %}
 		{% if item is iterable %}
 			<li>{{ key }}/{{ item.label }}</li>
-			{% include '@MazariniTest/tree.html.twig' with {'items': item} only %}
+			{% include '@MazariniBootstrap/tree.html.twig' with {'items': item} only %}
 		{% else %}
 			{# users is probably a string #}
 			<li>{{ key }}/{{ item.label }}/{{ item.url }}</li>

@@ -1,0 +1,7 @@
+{% extends "@MazariniBootstrap/base.html.twig" %}
+
+{% block first_bar_container %}
+	<div class="list-group accordion show" id="menu">
+		{% include '@MazariniBootstrap/menu.html.twig' with {'items': menu, 'accordion': 'menu'} only %}
+	</div>
+{% endblock first_bar_container %}

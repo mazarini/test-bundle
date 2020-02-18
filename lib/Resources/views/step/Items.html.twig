@@ -3,7 +3,7 @@
 {% block content %}
 	{{ dump(items) }}
 	<table class="table">
-		{% embed '@MazariniTools/iterative.html.twig' with {'items': items} only %}
+		{% embed '@MazariniBootstrap/tool/iterative.html.twig' with {'items': items} only %}
 			{% block header_container %}
 				<tr>
 					<th>
