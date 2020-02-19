@@ -21,6 +21,7 @@ namespace Mazarini\TestBundle\Controller;
 
 use Mazarini\TestBundle\Tool\Factory;
 use Mazarini\TestBundle\Tool\Folder;
+use Mazarini\ToolsBundle\Controller\CrudTrait;
 use Mazarini\ToolsBundle\Data\Link;
 use Mazarini\ToolsBundle\Data\LinkTree;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -30,6 +31,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StepController extends TestControllerAbstract
 {
+    use CrudTrait;
+
     /**
      * @var Folder
      */

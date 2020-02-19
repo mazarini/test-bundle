@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mazarini/tools-bundle.git",
-                "reference": "d3103ae5ae8b1e26493d32a8f768d74699b46be1"
+                "reference": "63765312fe0d4afdf1c47fb5ddb2dc1d1e203478"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/d3103ae5ae8b1e26493d32a8f768d74699b46be1",
-                "reference": "d3103ae5ae8b1e26493d32a8f768d74699b46be1",
+                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/63765312fe0d4afdf1c47fb5ddb2dc1d1e203478",
+                "reference": "63765312fe0d4afdf1c47fb5ddb2dc1d1e203478",
                 "shasum": ""
             },
             "require": {
@@ -78,7 +78,7 @@
                 "symfony",
                 "toolset"
             ],
-            "time": "2020-02-18T16:16:42+00:00"
+            "time": "2020-02-19T07:36:00+00:00"
         },
         {
             "name": "psr/cache",

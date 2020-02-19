@@ -22,9 +22,7 @@ namespace Mazarini\TestBundle\Tool;
 use Mazarini\TestBundle\Fake\Entity;
 use Mazarini\TestBundle\Fake\Repository;
 use Mazarini\TestBundle\Fake\UrlGenerator;
-use Mazarini\ToolsBundle\Controller\CrudUrlTrait;
-use Mazarini\ToolsBundle\Controller\ListUrlTrait;
-use Mazarini\ToolsBundle\Controller\PageUrlTrait;
+use Mazarini\ToolsBundle\Controller\CrudTrait;
 use Mazarini\ToolsBundle\Data\Data;
 use Mazarini\ToolsBundle\Data\Link;
 use Mazarini\ToolsBundle\Data\Links;
@@ -34,20 +32,7 @@ use Mazarini\ToolsBundle\Pagination\PaginationInterface;
 
 class Factory
 {
-    // Todo put in a sigle trait
-    use CrudUrlTrait;
-    use ListUrlTrait;
-    use PageUrlTrait;
-
-    protected function setUrl(Data $data): void
-    {
-        $this->setCrudUrl($data);
-        $this->setNewUrl($data);
-        $this->setPageUrl($data);
-        $this->setListUrl($data);
-    }
-
-    // Todo put in a sigle trait (end)
+    use CrudTrait;
 
     public function getUrlGenerator(): UrlGenerator
     {
