@@ -1,1 +1,9 @@
+{# templates/layout.html.twig #}
+
 {% extends '@MazariniBootstrap/layout.html.twig' %}
+
+{% block modal %}
+	{% if data.isSetEntity %}
+		{% include '@MazariniCrud/_delete_form.html.twig' with {'modal_id': 'modalDeleteId'} %}
+	{% endif %}
+{% endblock modal %}

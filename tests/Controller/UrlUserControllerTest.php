@@ -17,15 +17,15 @@
  * You should have received a copy of the GNU General Public License.
  */
 
-namespace Mazarini\TestBundle\Test\Controller;
+namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-abstract class UrlControllerAbstractTest extends WebTestCase
+class UrlUserControllerTest extends WebTestCase
 {
     /**
-     * @var KernelBrowser
+     * @var KernelBrowser;
      */
     protected $client;
 
@@ -35,21 +35,16 @@ abstract class UrlControllerAbstractTest extends WebTestCase
     }
 
     /**
-     * testUrls.
-     *
      * @dataProvider getUrls
-     *
-     * @param array<string,mixed> $parameters
      */
-    public function testUrls(string $url, int $response = 200, string $method = 'GET', array $parameters = []): void
+    public function testUrls(string $url, string $method = 'GET', int $response = 200): void
     {
-        $this->client->request($method, $url, $parameters);
+        $this->client->request($method, $url);
 
-        $message = sprintf('The %s URL loads correctly.', $url);
         $this->assertSame(
             $response,
             $this->client->getResponse()->getStatusCode(),
-            sprintf('The %s URL loads correctly.', $url)
+            sprintf('The %s public URL loads correctly.', $url)
         );
     }
 
@@ -58,5 +53,13 @@ abstract class UrlControllerAbstractTest extends WebTestCase
      *
      * @return \Traversable<array>
      */
-    abstract public function getUrls(): \Traversable;
+    public function getUrls(): \Traversable
+    {
+        yield ['/user/page-0.html', 'GET', 404];
+        yield ['/user/page-1.html', 'GET', 302];
+        yield ['/user/page-2.html', 'GET', 302];
+        yield ['/user/new.html', 'GET', 302];
+        yield ['/user/show-1.html', 'GET', 302];
+        yield ['/user/edit-1.html', 'GET', 302];
+    }
 }

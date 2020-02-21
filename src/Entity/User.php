@@ -17,19 +17,18 @@
  * You should have received a copy of the GNU General Public License.
  */
 
-namespace App\Tests\Entity;
+namespace App\Entity;
 
-use Mazarini\TestBundle\Fake\Entity;
-use PHPUnit\Framework\TestCase;
+use Doctrine\ORM\Mapping as ORM;
+use Mazarini\UserBundle\Entity\User as Base;
 
-class EntityTest extends TestCase
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ */
+class User extends Base
 {
-    public function testGet(): void
+    public function getPublicName(): string
     {
-        $entity = new Entity(1);
-        for ($i = 1; $i < 10; ++$i) {
-            $getCol = 'getCol'.$i;
-            $this->assertSame($entity->$getCol(), 'row 01 / col 0'.$i);
-        }
+        return $this->username;
     }
 }

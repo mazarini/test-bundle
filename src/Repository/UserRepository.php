@@ -17,19 +17,23 @@
  * You should have received a copy of the GNU General Public License.
  */
 
-namespace App\Tests\Entity;
+namespace App\Repository;
 
-use Mazarini\TestBundle\Fake\Entity;
-use PHPUnit\Framework\TestCase;
+use App\Entity\User;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Mazarini\UserBundle\Repository\UserRepository as BaseUserRepository;
 
-class EntityTest extends TestCase
+/**
+ * @method User|null find($id, $lockMode = null, $lockVersion = null)
+ * @method User|null findOneBy(array $criteria, array $orderBy = null)
+ * @method User[]    findAll()
+ * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class UserRepository extends BaseUserRepository
 {
-    public function testGet(): void
+    public function __construct(ManagerRegistry $registry)
     {
-        $entity = new Entity(1);
-        for ($i = 1; $i < 10; ++$i) {
-            $getCol = 'getCol'.$i;
-            $this->assertSame($entity->$getCol(), 'row 01 / col 0'.$i);
-        }
+        parent::__construct($registry);
+        $this->loginProperty = 'username';
     }
 }

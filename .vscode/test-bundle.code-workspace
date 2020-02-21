@@ -1,8 +1,8 @@
 {
 	"folders": [
 		{
-			"path": ".."
-		},
+			"path": "../"
+		}
 	],
 	"settings": {
 		"editor.formatOnSave": true,
@@ -12,12 +12,15 @@
 			"composer.lock": "json",
 			"symfony.lock": "json",
 			"*phpstan.neon.dist": "yaml",
+			".scrutinizer": "yaml",
 			".php_cs.dist": "php",
 			"console": "php",
 			"phpunit": "php"
 		},
 		"files.insertFinalNewline": true,
 		"files.trimTrailingWhitespace": true,
+		"php-cs-fixer.autoFixBySemicolon": true,
+		"php-cs-fixer.onsave": true,
 		"twig-language.objSort": true
 	}
 }

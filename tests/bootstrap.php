@@ -14,22 +14,22 @@
  * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
  * more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU General Public License.
  */
 
 use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-$dotEnvMethod = '';
-if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
-    require dirname(__DIR__).'/config/bootstrap.php';
+if (\App\Kernel::isOlder(50100)) {
+    $dotEnv = new Dotenv();
+    $method = 'bootEnv';
 } else {
-    $dotEnvMethod = 'bootEnv';
+    $dotEnv = new Dotenv(false);
+    $method = 'loadEnv';
 }
-if (method_exists(Dotenv::class, $dotEnvMethod)) {
-    (new Dotenv())->$dotEnvMethod(dirname(__DIR__).'/.env');
+if (method_exists($dotEnv, $method)) {
+    $dotEnv->$method(dirname(__DIR__).'/.env');
 } else {
-    $dotEnvMethod = 'loadEnv';
-    (new Dotenv(false))->$dotEnvMethod(dirname(__DIR__).'/.env');
+    throw new LogicException(sprintf('Unknow method "%s::%s" : env not initialized', get_class($dotEnv), $method));
 }

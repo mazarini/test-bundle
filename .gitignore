@@ -1,8 +1,9 @@
+
 ###> local ###
 /var/*
 !var/data
-/var/data/*
-!var/data/origine.db
+/var/data/sqlite.db
+/var/data/prod.db
 .php-version
 ###< local ###
 

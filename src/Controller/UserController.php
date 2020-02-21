@@ -17,19 +17,26 @@
  * You should have received a copy of the GNU General Public License.
  */
 
-namespace App\Tests\Entity;
+namespace App\Controller;
 
-use Mazarini\TestBundle\Fake\Entity;
-use PHPUnit\Framework\TestCase;
+use App\Entity\User;
+use Mazarini\UserBundle\Controller\UserController as BaseController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class EntityTest extends TestCase
+/**
+ * @Route("/user")
+ * @IsGranted("ROLE_ADMIN")
+ */
+class UserController extends BaseController
 {
-    public function testGet(): void
-    {
-        $entity = new Entity(1);
-        for ($i = 1; $i < 10; ++$i) {
-            $getCol = 'getCol'.$i;
-            $this->assertSame($entity->$getCol(), 'row 01 / col 0'.$i);
-        }
-    }
+    /*
+     public function __construct(RequestStack $requestStack, UrlGeneratorInterface $router)
+     {
+         parent::__construct($requestStack, $router, 'user');
+         $this->twigFolder = 'user/';
+     }
+     */
 }

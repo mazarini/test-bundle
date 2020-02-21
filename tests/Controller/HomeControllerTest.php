@@ -14,28 +14,64 @@
  * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
  * more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU General Public License.
  */
 
 namespace App\Tests\Controller;
 
-use Mazarini\TestBundle\Test\Controller\HomeControllerAbstractTest;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
-class HomeControllerTest extends HomeControllerAbstractTest
+//class HomeControllerTest extends HomeControllerAbstractTest
+class HomeControllerTest extends WebTestCase
 {
+    /**
+     * @var KernelBrowser;
+     */
+    protected $client;
+
     public function setUp(): void
     {
-        parent::setUp();
+        $this->client = static::createClient();
+    }
+
+    /**
+     * @dataProvider getUrls
+     */
+    public function testUrls(string $url, string $method = 'GET', int $response1 = 0, int $response2 = 0): void
+    {
+        $response = 0 === $response1 ? Response::HTTP_MOVED_PERMANENTLY : $response1;
+        $this->client->request($method, $url);
+
+        $this->assertSame(
+            $response,
+            $this->client->getResponse()->getStatusCode(),
+            sprintf('The %s URL redirect correctly with status %d (really : %d).', $url, $response, $this->client->getResponse()->getStatusCode())
+        );
+
+        $url .= '/';
+        $response = 0 === $response2 ? $response : $response2;
+        $this->client->request($method, $url);
+
+        $this->assertSame(
+            $response,
+            $this->client->getResponse()->getStatusCode(),
+            sprintf('The %s URL redirect correctly with status %d (really : %d).', $url, $response, $this->client->getResponse()->getStatusCode())
+        );
     }
 
     /**
      * getUrls.
      *
-     * @return \Traversable<mixed,array>
+     * @return \Traversable<int,array>
      */
     public function getUrls(): \Traversable
     {
         yield [''];
-        yield ['/System'];
+        yield ['/user', 'GET', Response::HTTP_MOVED_PERMANENTLY, Response::HTTP_FOUND];
+        yield ['/profile'];
+        yield ['/step', 'GET', Response::HTTP_MOVED_PERMANENTLY, Response::HTTP_FOUND];
+        yield ['/step/System', 'GET', Response::HTTP_FOUND, Response::HTTP_MOVED_PERMANENTLY];
     }
 }

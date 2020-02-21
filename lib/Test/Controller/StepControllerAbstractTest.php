@@ -14,13 +14,14 @@
  * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
  * more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU General Public License.
  */
 
 namespace Mazarini\TestBundle\Test\Controller;
 
 use Mazarini\TestBundle\Tool\Folder;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class StepControllerAbstractTest extends UrlControllerAbstractTest
 {
@@ -41,9 +42,10 @@ abstract class StepControllerAbstractTest extends UrlControllerAbstractTest
      *
      * @param array<string,mixed> $parameters
      */
-    public function testUrls(string $url, int $response = 200, string $method = 'GET', array $parameters = []): void
+    public function testUrls(string $url, int $response = 0, string $method = 'GET', array $parameters = []): void
     {
         $this->client->request($method, $url, $parameters);
+        $response = 0 === $response ? Response::HTTP_OK : $response;
 
         $message = sprintf('The %s URL loads correctly.', $url);
         $this->assertSame(
@@ -63,10 +65,10 @@ abstract class StepControllerAbstractTest extends UrlControllerAbstractTest
         $folder = new Folder();
         $steps = $folder->getSteps();
         foreach ($steps as $step => $dummy) {
-            yield ['/'.$step, 302];
+            yield ['/step/'.$step.'/', Response::HTTP_MOVED_PERMANENTLY];
             $pages = $folder->getPages($steps[$step]);
             foreach ($pages as $page => $dummy) {
-                yield ['/'.$step.'/'.$page.'.html'];
+                yield ['/step/'.$step.'/'.$page.'.html'];
             }
         }
     }

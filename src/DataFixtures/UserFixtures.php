@@ -17,19 +17,28 @@
  * You should have received a copy of the GNU General Public License.
  */
 
-namespace App\Tests\Entity;
+namespace App\DataFixtures;
 
-use Mazarini\TestBundle\Fake\Entity;
-use PHPUnit\Framework\TestCase;
+use Mazarini\UserBundle\DataFixtures\UserFixturesAbstract;
 
-class EntityTest extends TestCase
+class UserFixtures extends UserFixturesAbstract
 {
-    public function testGet(): void
+    /**
+     * @var int
+     */
+    protected $number = 0;
+
+    /**
+     * getData.
+     *
+     * @return array<int,mixed>
+     */
+    protected function getData(): array
     {
-        $entity = new Entity(1);
-        for ($i = 1; $i < 10; ++$i) {
-            $getCol = 'getCol'.$i;
-            $this->assertSame($entity->$getCol(), 'row 01 / col 0'.$i);
-        }
+        return [
+//          [$name, $roles]
+            ['admin', ['ROLE_ADMIN']],
+            ['user', ['ROLE_USER']],
+        ];
     }
 }

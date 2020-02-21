@@ -18,22 +18,27 @@ security:
 composer:
 	composer -vv validate --strict
 
-twig:
-	bin/console lint:twig templates/ lib/Resources/views/
-	twigcs templates -vv
-	twigcs lib/Resources/views -vv
-
-yaml:
-	bin/console lint:yaml config lib/Resources/config phpstan.neon.dist .travis.yml
-
-cs:
-	php-cs-fixer fix
-
 stan:
 	if [ ! -d "var/cache/phpunit" ]; then vendor/bin/simple-phpunit install -v; fi
 	phpstan analyse lib src tests --level max
 
-validate: security composer twig yaml stan cs
+yaml:
+	bin/console lint:yaml config lib/Resources/config phpstan.neon.dist .travis.yml
+
+twig: yaml
+	bin/console lint:twig templates/ lib/Resources/views/
+	twigcs templates -vv
+	twigcs lib/Resources/views -vv
+cs:
+	php-cs-fixer fix
+
+stanX:
+	if [ ! -d "var/cache/phpunit" ]; then vendor/bin/simple-phpunit install -v; fi
+	phpstan analyse lib src tests --level max
+
+validate: security composer twig yaml stanX cs test
+
+stan: stanX test security composer twig yaml cs
 
 ############################################
 #          P H P   V E R S I O N           #

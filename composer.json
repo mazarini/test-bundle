@@ -20,19 +20,28 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-mbstring": "*",
-        "mazarini/tools-bundle": "^0.9|^1.0@dev",
-        "symfony/console": "^4.4|^5.0",
+        "doctrine/doctrine-bundle": "^2.0",
+        "doctrine/orm": "^2.7",
+        "mazarini/bootstrap-bundle": "^1.0dev",
+        "mazarini/crud-bundle": "^1.0dev",
+        "mazarini/pagination-bundle": "^1.0@dev",
+        "mazarini/tools-bundle": "^1.0dev",
+        "mazarini/user-bundle": "^1.0@dev",
+        "sensio/framework-extra-bundle": "^5.5",
+        "symfony/apache-pack": "^1.0",
         "symfony/dotenv": "^4.4|^5.0",
         "symfony/flex": "^1.6",
-        "symfony/framework-bundle": "^4.4|^5.0",
-        "symfony/translation": "^4.4|^5.0",
+        "symfony/form": "^4.4|^5.0",
+        "symfony/security-bundle": "^4.4|^5.0",
+        "symfony/security-csrf": "^4.4|^5.0",
+        "symfony/twig-pack": "^1.0",
+        "symfony/validator": "^4.4|^5.0",
         "symfony/yaml": "^4.4|^5.0"
     },
     "require-dev": {
-        "doctrine/doctrine-bundle": "^2.0",
-        "doctrine/orm": "^2.7",
-        "mazarini/bootstrap-bundle": "^0.9|^1.0@dev",
-        "mazarini/package": "^1.1",
+        "dama/doctrine-test-bundle": "^6.2",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "mazarini/package": "^1.0@dev",
         "symfony/debug-pack": "^1.0",
         "symfony/maker-bundle": "^1.14",
         "symfony/test-pack": "^1.0"
@@ -54,6 +63,7 @@
             "App\\Tests\\": "tests/"
         }
     },
+    "replace": {},
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",

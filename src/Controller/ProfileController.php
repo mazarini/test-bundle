@@ -17,19 +17,14 @@
  * You should have received a copy of the GNU General Public License.
  */
 
-namespace App\Tests\Entity;
+namespace App\Controller;
 
-use Mazarini\TestBundle\Fake\Entity;
-use PHPUnit\Framework\TestCase;
+use Mazarini\UserBundle\Controller\ProfileController as BaseController;
+use Symfony\Component\Routing\Annotation\Route;
 
-class EntityTest extends TestCase
+/**
+ * @Route("/profile")
+ */
+class ProfileController extends BaseController
 {
-    public function testGet(): void
-    {
-        $entity = new Entity(1);
-        for ($i = 1; $i < 10; ++$i) {
-            $getCol = 'getCol'.$i;
-            $this->assertSame($entity->$getCol(), 'row 01 / col 0'.$i);
-        }
-    }
 }
