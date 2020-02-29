@@ -93,7 +93,7 @@ class StepController extends TestControllerAbstract
 
         $this->pages = $this->folder->getPages($this->steps[$step]);
 
-        return $this->redirectToRoute('step_index', ['step' => $step, 'page' => array_key_first($this->pages)]);
+        return $this->redirectToRoute('step_index', ['step' => $step, 'page' => array_key_first($this->pages)], Response::HTTP_MOVED_PERMANENTLY);
     }
 
     /**

@@ -39,10 +39,10 @@ class HomeControllerTest extends WebTestCase
     /**
      * @dataProvider getUrls
      */
-    public function testUrls(string $url, string $method = 'GET', int $response1 = 0, int $response2 = 0): void
+    public function testUrls(string $url, bool $connected = false): void
     {
-        $response = 0 === $response1 ? Response::HTTP_MOVED_PERMANENTLY : $response1;
-        $this->client->request($method, $url);
+        $response = Response::HTTP_MOVED_PERMANENTLY;
+        $this->client->request('GET', $url);
 
         $this->assertSame(
             $response,
@@ -51,8 +51,8 @@ class HomeControllerTest extends WebTestCase
         );
 
         $url .= '/';
-        $response = 0 === $response2 ? $response : $response2;
-        $this->client->request($method, $url);
+        $response = Response::HTTP_MOVED_PERMANENTLY;
+        $this->client->request('GET', $url);
 
         $this->assertSame(
             $response,
@@ -69,9 +69,7 @@ class HomeControllerTest extends WebTestCase
     public function getUrls(): \Traversable
     {
         yield [''];
-        yield ['/user', 'GET', Response::HTTP_MOVED_PERMANENTLY, Response::HTTP_FOUND];
-        yield ['/profile'];
-        yield ['/step', 'GET', Response::HTTP_MOVED_PERMANENTLY, Response::HTTP_FOUND];
-        yield ['/step/System', 'GET', Response::HTTP_FOUND, Response::HTTP_MOVED_PERMANENTLY];
+        yield ['/step'];
+        yield ['/step/System'];
     }
 }

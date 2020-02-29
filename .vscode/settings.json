@@ -1,0 +1,3 @@
+{
+    "phpcs.executablePath": "/home/mazarini/.config/composer/vendor/bin/php-cs-fixer"
+}
