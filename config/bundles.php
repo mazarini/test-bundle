@@ -17,4 +17,5 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Mazarini\PackageBundle\MazariniPackageBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    Mazarini\PaginationBundle\MazariniPaginationBundle::class => ['all' => true],
 ];

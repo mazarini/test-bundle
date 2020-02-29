@@ -19,13 +19,13 @@
 
 namespace Mazarini\TestBundle\Fake;
 
+use Mazarini\PaginationBundle\Repository\ObjectRepositoryAbstract;
+use Mazarini\PaginationBundle\Tool\PaginationInterface;
 use Mazarini\ToolsBundle\Entity\EntityInterface;
-use Mazarini\ToolsBundle\Pagination\PaginationInterface;
-use Mazarini\ToolsBundle\Repository\EntityRepositoryAbstract;
 use ReflectionClass;
 use ReflectionProperty;
 
-class Repository extends EntityRepositoryAbstract
+class Repository extends ObjectRepositoryAbstract
 {
     /**
      * @var int

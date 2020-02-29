@@ -19,6 +19,8 @@
 
 namespace Mazarini\TestBundle\Tool;
 
+use Mazarini\PaginationBundle\Tool\Pagination;
+use Mazarini\PaginationBundle\Tool\PaginationInterface;
 use Mazarini\TestBundle\Fake\Entity;
 use Mazarini\TestBundle\Fake\Repository;
 use Mazarini\TestBundle\Fake\UrlGenerator;
@@ -27,8 +29,6 @@ use Mazarini\ToolsBundle\Data\Data;
 use Mazarini\ToolsBundle\Data\Link;
 use Mazarini\ToolsBundle\Data\Links;
 use Mazarini\ToolsBundle\Data\LinkTree;
-use Mazarini\ToolsBundle\Pagination\Pagination;
-use Mazarini\ToolsBundle\Pagination\PaginationInterface;
 
 class Factory
 {

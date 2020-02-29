@@ -23,6 +23,7 @@
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/orm": "^2.7",
         "mazarini/bootstrap-bundle": "^1.0dev",
+        "mazarini/pagination-bundle": "^1.0@dev",
         "mazarini/tools-bundle": "^1.0dev",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/apache-pack": "^1.0",

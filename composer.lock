@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ff3a292f5f5e4af1858bcaf9b727f14",
+    "content-hash": "3f7e49bce8f48e1a7472fb2d93b760d8",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1122,17 +1122,94 @@
             "time": "2020-02-20T08:04:24+00:00"
         },
         {
+            "name": "mazarini/pagination-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mazarini/pagination-bundle.git",
+                "reference": "10ca9553a8ae476b27317ec01661df36a1d636de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mazarini/pagination-bundle/zipball/10ca9553a8ae476b27317ec01661df36a1d636de",
+                "reference": "10ca9553a8ae476b27317ec01661df36a1d636de",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^2.0",
+                "doctrine/orm": "^2.7",
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "mazarini/bootstrap-bundle": "^1.0@dev",
+                "mazarini/tools-bundle": "^1.0@dev",
+                "php": "^7.2.5",
+                "sensio/framework-extra-bundle": "^5.5",
+                "symfony/dotenv": "^4.4|^5.0",
+                "symfony/flex": "^1.6",
+                "symfony/form": "^4.4|^5.0",
+                "symfony/security-bundle": "^4.4|^5.0",
+                "symfony/twig-pack": "^1.0",
+                "symfony/validator": "^4.4|^5.0",
+                "symfony/yaml": "^4.4|^5.0"
+            },
+            "conflict": {
+                "symfony/symfony": "*"
+            },
+            "require-dev": {
+                "dama/doctrine-test-bundle": "^6.2",
+                "doctrine/doctrine-fixtures-bundle": "^3.3",
+                "mazarini/package": "^1.1",
+                "mazarini/test-bundle": "^1.0@dev",
+                "symfony/debug-pack": "^1.0",
+                "symfony/maker-bundle": "^1.14",
+                "symfony/test-pack": "^1.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "allow-contrib": true,
+                    "require": "5.0.*"
+                },
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mazarini\\PaginationBundle\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mazarini",
+                    "email": "mazarini@protonmail.com"
+                }
+            ],
+            "description": "Pagination bundle for symfony and doctrine orm.",
+            "homepage": "https://github.com/mazarini/pagination-bundle",
+            "keywords": [
+                "frontend",
+                "pagination",
+                "symfony"
+            ],
+            "time": "2020-02-29T12:47:02+00:00"
+        },
+        {
             "name": "mazarini/tools-bundle",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mazarini/tools-bundle.git",
-                "reference": "1609a24c6c21ed58595fe467119dde3f789b5109"
+                "reference": "8348efabdf366615b8c14147914d697b060d0842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/1609a24c6c21ed58595fe467119dde3f789b5109",
-                "reference": "1609a24c6c21ed58595fe467119dde3f789b5109",
+                "url": "https://api.github.com/repos/mazarini/tools-bundle/zipball/8348efabdf366615b8c14147914d697b060d0842",
+                "reference": "8348efabdf366615b8c14147914d697b060d0842",
                 "shasum": ""
             },
             "require": {
@@ -1155,6 +1232,7 @@
                 "doctrine/orm": "^2.7",
                 "mazarini/bootstrap-bundle": "^0.9|^1.0dev",
                 "mazarini/package": "^1.1",
+                "mazarini/pagination-bundle": "^1.0@dev",
                 "mazarini/test-bundle": "^0.9|^1.0dev",
                 "symfony/debug-pack": "^1.0",
                 "symfony/maker-bundle": "^1.14",
@@ -1192,7 +1270,7 @@
                 "symfony",
                 "toolset"
             ],
-            "time": "2020-02-28T14:28:37+00:00"
+            "time": "2020-02-29T13:12:11+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -5754,6 +5832,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "mazarini/bootstrap-bundle": 20,
+        "mazarini/pagination-bundle": 20,
         "mazarini/tools-bundle": 20,
         "mazarini/package": 20
     },

@@ -107,6 +107,9 @@
     "mazarini/package": {
         "version": "1.1.x-dev"
     },
+    "mazarini/pagination-bundle": {
+        "version": "1.0.x-dev"
+    },
     "mazarini/test-bundle": {
         "version": "1.0.x-dev"
     },
