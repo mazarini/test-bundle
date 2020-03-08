@@ -80,11 +80,13 @@ class UrlGeneratorOriginal implements UrlGeneratorInterface, ConfigurableRequire
     /**
      * generate.
      *
+     * @param string              $name
      * @param array<string,mixed> $parameters
+     * @param int                 $referenceType
      *
      * @return string
      */
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = UrlGenerator::ABSOLUTE_PATH)
     {
         return $this->original->generate($name, $parameters, $referenceType);
     }
