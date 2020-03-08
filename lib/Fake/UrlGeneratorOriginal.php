@@ -59,9 +59,11 @@ class UrlGeneratorOriginal implements UrlGeneratorInterface, ConfigurableRequire
     /**
      * setStrictRequirements.
      *
+     * @param bool|null $enabled
+     *
      * @return void
      */
-    public function setStrictRequirements(?bool $enabled)
+    public function setStrictRequirements($enabled)
     {
         if (method_exists($this->original, 'setStrictRequirements')) {
             $this->original->setStrictRequirements($enabled);
