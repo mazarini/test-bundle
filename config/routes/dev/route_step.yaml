@@ -1,0 +1,3 @@
+mazarini_user:
+    prefix: /step
+    resource: '@MazariniTestBundle/Resources/config/route_step.yaml'

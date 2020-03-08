@@ -26,9 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/step")
- */
 class StepController extends AbstractController
 {
     /**

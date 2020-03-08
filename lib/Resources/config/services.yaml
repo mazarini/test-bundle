@@ -6,37 +6,26 @@
 parameters:
 
 services:
-    # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    Mazarini\TestBundle\:
-        resource: '../../*'
-        exclude: '../../{DependencyInjection,Controller,Entity,Migrations,Tests,Kernel.php}'
+    Mazarini\TestBundle\Controller\StepController:
+        tags: ['controller.service_arguments']
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-#   Mazarini\TestBundle\Controller\:
-#       resource: '../../../src/Controller'
-#       tags: ['controller.service_arguments']
+    Mazarini\TestBundle\EventSubscriber\:
+        resource: '../../EventSubscriber/*'
+
+    Mazarini\TestBundle\Factory\:
+        resource: '../../Factory/*'
+
+    Mazarini\TestBundle\Fake\:
+        resource: '../../Fake/*'
 
     Mazarini\TestBundle\Tool\Folder:
         arguments:
             $stepDir: '%kernel.project_dir%/templates/step'
 
-    Mazarini\TestBundle\EventSubscriber\StepControllerSubscriber:
-
-    Mazarini\TestBundle\Twig\EntityExtension:
-        tags: ['twig.extension']
-
-    Mazarini\TestBundle\Twig\LinkExtension:
-        tags: ['twig.extension']
-
-    Mazarini\TestBundle\Twig\PaginationExtension:
-        tags: ['twig.extension']
-
-    Mazarini\TestBundle\Twig\DataExtension:
+    Mazarini\TestBundle\Twig\:
+        resource: '../../Twig/*'
         tags: ['twig.extension']
