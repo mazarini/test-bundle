@@ -19,25 +19,20 @@
 
 namespace Mazarini\TestBundle\Controller;
 
-use Mazarini\TestBundle\Fake\UrlGenerator;
-use Mazarini\TestBundle\Tool\Factory;
-use Mazarini\ToolsBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Mazarini\ToolsBundle\Controller\AbstractController as ToolsControllerAbstract;
+use Mazarini\ToolsBundle\Twig\LinkExtension;
 
-class TestControllerAbstract extends AbstractController
+class AbstractController extends ToolsControllerAbstract
 {
     /**
-     * @var Factory
+     * @var LinkExtension
      */
-    protected $fakeFactory;
+    protected $linkExtension;
 
-    /**
-     * __construct.
-     */
-    public function __construct(RequestStack $requestStack, Factory $fakeFactory)
+    public function setLinkExtension(LinkExtension $linkExtension): void
     {
-        $this->fakeFactory = $fakeFactory;
-
-        parent::__construct($requestStack, new UrlGenerator());
+        $this->parameters['linkExtension'] = $this->linkExtension = $linkExtension;
+        $linkExtension->setBaseRoute($this->getBaseRoute());
+        $linkExtension->setParentParameters(['parent' => 12]);
     }
 }

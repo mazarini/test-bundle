@@ -19,61 +19,26 @@
 
 namespace Mazarini\TestBundle\Fake;
 
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RequestContext;
-
-class UrlGenerator implements UrlGeneratorInterface
+class UrlGenerator extends UrlGeneratorOriginal
 {
     /**
      * generate.
      *
-     * @param string              $name
      * @param array<string,mixed> $parameters
-     * @param int                 $referenceType
      *
      * @return string
      */
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH)
     {
-        return trim('#'.$name.'-'.implode('-', $parameters), '-');
-    }
+        if ('FAKE_' === mb_substr($name, 0, 5)) {
+            $url = '#'.$name;
+            foreach ($parameters as $key => $value) {
+                $url .= '-'.$key.'='.(string) $value;
+            }
 
-    /**
-     * setStrictRequirements.
-     *
-     * @return void
-     */
-    public function setStrictRequirements(?bool $enabled)
-    {
-    }
+            return $url;
+        }
 
-    /**
-     * Returns whether to throw an exception on incorrect parameters.
-     * Null means the requirements check is deactivated completely.
-     *
-     * @return bool|null
-     */
-    public function isStrictRequirements()
-    {
-        return true;
-    }
-
-    /**
-     * setContext.
-     *
-     * @return void
-     */
-    public function setContext(RequestContext $context)
-    {
-    }
-
-    /**
-     * getContext.
-     *
-     * @return RequestContext
-     */
-    public function getContext()
-    {
-        return new RequestContext();
+        return parent::generate($name, $parameters, $referenceType);
     }
 }

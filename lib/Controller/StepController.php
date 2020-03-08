@@ -19,20 +19,18 @@
 
 namespace Mazarini\TestBundle\Controller;
 
-use Mazarini\TestBundle\Tool\Factory;
 use Mazarini\TestBundle\Tool\Folder;
-use Mazarini\ToolsBundle\Controller\CrudTrait;
 use Mazarini\ToolsBundle\Data\Link;
 use Mazarini\ToolsBundle\Data\LinkTree;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
 
-class StepController extends TestControllerAbstract
+/**
+ * @Route("/step")
+ */
+class StepController extends AbstractController
 {
-    use CrudTrait;
-
     /**
      * @var Folder
      */
@@ -57,15 +55,6 @@ class StepController extends TestControllerAbstract
      * @var string
      */
     protected $page = '';
-
-    /**
-     * __construct.
-     */
-    public function __construct(RequestStack $requestStack, Factory $fakeFactory, Folder $folder)
-    {
-        $this->folder = $folder;
-        parent::__construct($requestStack, $fakeFactory);
-    }
 
     /**
      * @Route("/", name="step_home")
@@ -121,8 +110,9 @@ class StepController extends TestControllerAbstract
         return $this->dataRender($this->steps[$step].'/'.$this->pages[$page], $parameters);
     }
 
-    protected function setMenu(LinkTree $menu): void
+    public function setMenu(LinkTree $menu): void
     {
+        $this->parameters['menu'] = $menu;
         foreach (array_keys($this->steps) as $step) {
             $link = new LinkTree($step);
             $menu[$step] = $link;
@@ -142,33 +132,27 @@ class StepController extends TestControllerAbstract
         }
     }
 
-    protected function beforeAction(string $action): void
+    public function setFolder(Folder $folder): void
     {
+        $this->folder = $folder;
+    }
+
+    /**
+     * beforeAction.
+     *
+     * @param array<string,mixed> $arguments
+     */
+    public function beforeAction(string $method, array $arguments): void
+    {
+        parent::beforeAction($method, $arguments);
         $this->parameters['steps'] = $this->steps = $this->folder->getSteps();
     }
 
-    protected function afterAction(string $action): void
+    protected function afterAction(): void
     {
+        parent::afterAction();
         $this->parameters['symfony']['version'] = Kernel::VERSION;
         $this->parameters['php']['version'] = PHP_VERSION;
         $this->parameters['php']['extensions'] = get_loaded_extensions();
-
-        $this->parameters['tree'] = $tree = $this->fakeFactory->getTree('Tree', 'item', 5);
-        $tree['item-1'] = $item1 = $this->fakeFactory->getTree('Item-1', 'item-1', 2);
-        $item1['item-1-1'] = $this->fakeFactory->getTree('Item-1-1', 'item-1-1', 3);
-        $item1['item-1-2'] = $this->fakeFactory->getTree('Item-1-2', 'item-1-2', 2);
-        $tree['item-2'] = $this->fakeFactory->getTree('Item-2', 'item-2', 2);
-        $tree['item-4'] = $this->fakeFactory->getTree('Item-4', 'item-4', 2);
-
-        $this->parameters['list'] = $this->fakeFactory->getLinks('item', 7);
-        $this->parameters['list']['item-4'] = new Link('item-4', '#', 'Disable');
-
-        $this->parameters['dataLinks'] = $this->fakeFactory->getLinksData();
-        $this->parameters['dataPagination'] = $this->fakeFactory->getPaginationData();
-        $this->parameters['dataCrud'] = $this->fakeFactory->getCrudData();
-    }
-
-    protected function beforeRender(string $action): void
-    {
     }
 }

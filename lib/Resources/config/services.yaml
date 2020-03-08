@@ -27,8 +27,16 @@ services:
         arguments:
             $stepDir: '%kernel.project_dir%/templates/step'
 
+    Mazarini\TestBundle\EventSubscriber\StepControllerSubscriber:
+
     Mazarini\TestBundle\Twig\EntityExtension:
         tags: ['twig.extension']
 
+    Mazarini\TestBundle\Twig\LinkExtension:
+        tags: ['twig.extension']
+
     Mazarini\TestBundle\Twig\PaginationExtension:
+        tags: ['twig.extension']
+
+    Mazarini\TestBundle\Twig\DataExtension:
         tags: ['twig.extension']

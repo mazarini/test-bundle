@@ -4,12 +4,8 @@
 	{{ dump(currentData) }}
 	<table class="table">
 		<tr>
-			<td>Route :</td>
-			<td>{{ currentData.route }}</td>
-		</tr>
-		<tr>
-			<td>Url :</td>
-			<td>{{ currentData.links.current.url }}</td>
+			<td>Current action :</td>
+			<td>{{ currentData.CurrentAction }}</td>
 		</tr>
 		<tr>
 			<td>Entity :</td>
@@ -23,12 +19,8 @@
 			<td>Entities :</td>
 			<td>{{ currentData.isSetEntities ? currentData.entities.count ~ ' entities / ' ~ currentData.pagination.totalCount : 'No' }}</td>
 		</tr>
-		<tr>
-			<td>Links :</td>
-			<td>
-				{{ currentData.links|length }}
-				links
-			</td>
-		</tr>
 	</table>
+	{% if object|default(false) %}
+		{{ dump(object) }}
+	{% endif %}
 {% endblock %}
