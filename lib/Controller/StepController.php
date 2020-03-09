@@ -22,6 +22,7 @@ namespace Mazarini\TestBundle\Controller;
 use Mazarini\TestBundle\Tool\Folder;
 use Mazarini\ToolsBundle\Data\Link;
 use Mazarini\ToolsBundle\Data\LinkTree;
+use Mazarini\ToolsBundle\Twig\LinkExtension;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,10 +61,11 @@ class StepController extends AbstractController
     {
         $step = array_key_first($this->steps);
         if (null === $step) {
-            $step = '';
+            throw $this->createNotFoundException('There is no step');
         }
+        $this->addFlash('info', 'Redirect to first step');
 
-        return $this->homeStep($step);
+        return $this->redirectToRoute('step_home_step', ['step' => $step], Response::HTTP_MOVED_PERMANENTLY);
     }
 
     /**
@@ -72,33 +74,31 @@ class StepController extends AbstractController
     public function homeStep(string $step): Response
     {
         if (!isset($this->steps[$step])) {
-            $currentUrl = $this->generateUrl('step_home_step', ['step' => $step]);
-            $tryUrl = $this->generateUrl('step_home_step', ['step' => array_key_first($this->steps)]);
-            throw $this->createNotFoundException(sprintf('The step "%s" does not exist. Try <a href="%s">%s</a>', $currentUrl, $tryUrl, $tryUrl));
+            $this->addFlash('danger', sprintf('Step "%s" unknown', $step));
+
+            return $this->redirectToRoute('step_home', [], Response::HTTP_MOVED_PERMANENTLY);
+        }
+        $page = array_key_first($this->pages);
+        if (null === $page) {
+            throw $this->createNotFoundException(sprintf('There is no page for step "%s"', $step));
         }
 
-        $this->pages = $this->folder->getPages($this->steps[$step]);
+        $this->addFlash('info', sprintf('Redirect to first page of step %s', $step));
 
-        return $this->redirectToRoute('step_index', ['step' => $step, 'page' => array_key_first($this->pages)], Response::HTTP_MOVED_PERMANENTLY);
+        return $this->redirectToRoute('step_index', ['step' => $step, 'page' => $page], Response::HTTP_MOVED_PERMANENTLY);
     }
 
     /**
      * @Route("/{step}/{page}.html", name="step_index")
      */
-    public function index(Folder $folder, string $step, string $page): Response
+    public function index(string $step, string $page): Response
     {
-        if (!isset($this->steps[$step])) {
-            $currentUrl = $this->generateUrl('step_home_step', ['step' => $step]);
-            $tryUrl = $this->generateUrl('step_home_step', ['step' => array_key_first($this->steps)]);
-            throw $this->createNotFoundException(sprintf('The step "%s" does not exist. Try <a href="%s">%s</a>', $currentUrl, $tryUrl, $tryUrl));
-        }
+        if (!isset($this->steps[$step]) || !isset($this->pages[$page])) {
+            if (isset($this->steps[$step])) {
+                $this->addFlash('danger', sprintf('The page "%s" of step "%s" don\'t exists', $page, $step));
+            }
 
-        $parameters['pages'] = $this->pages = $this->folder->getPages($this->steps[$step]);
-
-        if (!isset($this->pages[$page])) {
-            $currentUrl = $this->generateUrl('step_index', ['step' => $step, 'page' => $page]);
-            $tryUrl = $this->generateUrl('step_index', ['step' => $step, 'page' => array_key_first($this->pages)]);
-            throw $this->createNotFoundException(sprintf('The page "%s" does not exist. Try <a href="%s">%s</a>', $currentUrl, $tryUrl, $tryUrl));
+            return $this->redirectToRoute('step_home_step', ['step' => $step], Response::HTTP_MOVED_PERMANENTLY);
         }
 
         $parameters['step'] = $this->step = $step;
@@ -134,20 +134,33 @@ class StepController extends AbstractController
         $this->folder = $folder;
     }
 
+    public function setLinkExtension(LinkExtension $linkExtension): void
+    {
+        parent::setLinkExtension($linkExtension);
+        // Add a fake parent parameters to route
+        $linkExtension->setParentParameters(['parent' => 12]);
+    }
+
     /**
      * beforeAction.
      *
-     * @param array<string,mixed> $arguments
+     * @param array<int,mixed> $arguments
      */
     public function beforeAction(string $method, array $arguments): void
     {
         parent::beforeAction($method, $arguments);
         $this->parameters['steps'] = $this->steps = $this->folder->getSteps();
+        if ('home' !== $method) {
+            $step = $arguments[0];
+            if (isset($this->steps[$step])) {
+                $this->parameters['pages'] = $this->pages = $this->folder->getPages($this->steps[$step]);
+            }
+        }
     }
 
-    protected function afterAction(): void
+    protected function beforeRender(): void
     {
-        parent::afterAction();
+        parent::beforeRender();
         $this->parameters['symfony']['version'] = Kernel::VERSION;
         $this->parameters['php']['version'] = PHP_VERSION;
         $this->parameters['php']['extensions'] = get_loaded_extensions();
