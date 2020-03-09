@@ -20,6 +20,7 @@
 namespace Mazarini\TestBundle\Twig;
 
 use Mazarini\TestBundle\Factory\LinkFactory;
+use Mazarini\ToolsBundle\Data\Link;
 use Mazarini\ToolsBundle\Data\Links;
 use Mazarini\ToolsBundle\Data\LinkTree;
 use Twig\Extension\AbstractExtension;
@@ -48,6 +49,9 @@ class LinkExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('linkActive', [$this, 'getLinkActive']),
+            new TwigFunction('linkDisable', [$this, 'getlinkDisable']),
+            new TwigFunction('linkStandard', [$this, 'getlinkStandard']),
             new TwigFunction('linksSample', [$this, 'getLinksSample']),
             new TwigFunction('treeSample', [$this, 'getTreeSample']),
         ];
@@ -62,10 +66,34 @@ class LinkExtension extends AbstractExtension
     }
 
     /**
-     * getLinksSample.
+     * getTreeSample.
      */
     public function getTreeSample(): LinkTree
     {
         return $this->linkFactory->getTreeSample();
+    }
+
+    /**
+     * getLinkActive.
+     */
+    public function getLinkActive(string $label = 'Active'): Link
+    {
+        return new Link('active', '', $label);
+    }
+
+    /**
+     * getLinkDisable.
+     */
+    public function getLinkDisable(string $label = 'Disable'): Link
+    {
+        return new Link('disable', '#', $label);
+    }
+
+    /**
+     * getLinkStandard.
+     */
+    public function getLinkStandard(string $label = 'Standard'): Link
+    {
+        return new Link('standard', '/standard', $label);
     }
 }
