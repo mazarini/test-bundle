@@ -37,14 +37,20 @@ class DataFactory
     protected $entityFactory;
 
     /**
+     * @var FormFactory
+     */
+    protected $formFactory;
+
+    /**
      * @var LinkExtension
      */
     protected $linkExtension;
 
-    public function __construct(EntityFactory $entityFactory, PaginationFactory $paginationFactory, UrlGenerator $urlGenerator, LinkExtension $linkExtension)
+    public function __construct(FormFactory $formFactory, EntityFactory $entityFactory, PaginationFactory $paginationFactory, UrlGenerator $urlGenerator, LinkExtension $linkExtension)
     {
         $this->entityFactory = $entityFactory;
         $this->paginationFactory = $paginationFactory;
+        $this->formFactory = $formFactory;
         $this->linkExtension = $linkExtension;
         $reflectionClass = new ReflectionClass(LinkExtension::class);
         $reflectionProperty = $reflectionClass->getProperty('urlGenerator');
@@ -71,6 +77,9 @@ class DataFactory
         }
         $data = $this->getData($action, $url);
         $data->setEntity($this->entityFactory->getEntity($id));
+        if ('edit' === $action or 'new' === $action) {
+            $data->setFormView($this->formFactory->getFormView());
+        }
         $data->setCurrentAction($action);
 
         return $data;

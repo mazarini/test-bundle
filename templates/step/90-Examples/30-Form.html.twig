@@ -1,0 +1,8 @@
+{% extends '@MazariniTest/step/layout.html.twig' %}
+
+{% block content %}
+	{% set form = formView() %}
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+{% endblock content %}
