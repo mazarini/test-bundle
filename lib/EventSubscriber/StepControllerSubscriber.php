@@ -20,7 +20,6 @@
 namespace Mazarini\TestBundle\EventSubscriber;
 
 use Mazarini\TestBundle\Tool\Folder;
-use Mazarini\ToolsBundle\Twig\LinkExtension;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -33,15 +32,9 @@ class StepControllerSubscriber implements EventSubscriberInterface
      */
     protected $folder;
 
-    /**
-     * @var LinkExtension
-     */
-    protected $linkExtension;
-
-    public function __construct(Folder $folder, LinkExtension $linkExtension)
+    public function __construct(Folder $folder)
     {
         $this->folder = $folder;
-        $this->linkExtension = $linkExtension;
     }
 
     /**
@@ -71,10 +64,6 @@ class StepControllerSubscriber implements EventSubscriberInterface
         }
         if (method_exists($controller, 'setFolder')) {
             $controller->setFolder($this->folder);
-        }
-        if (method_exists($controller, 'setLinkExtension')) {
-            $controller->setLinkExtension($this->linkExtension);
-            $this->linkExtension->setCurrentUrl($event->getRequest()->getPathInfo());
         }
     }
 

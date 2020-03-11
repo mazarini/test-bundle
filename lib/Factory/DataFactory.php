@@ -23,6 +23,7 @@ use Mazarini\TestBundle\Fake\UrlGenerator;
 use Mazarini\ToolsBundle\Data\Data;
 use Mazarini\ToolsBundle\Twig\LinkExtension;
 use ReflectionClass;
+use ReflectionProperty;
 
 class DataFactory
 {
@@ -46,16 +47,25 @@ class DataFactory
      */
     protected $linkExtension;
 
+    /**
+     * @var UrlGenerator
+     */
+    protected $urlGenerator;
+    /**
+     * @var ReflectionProperty
+     */
+    protected $reflectionProperty;
+
     public function __construct(FormFactory $formFactory, EntityFactory $entityFactory, PaginationFactory $paginationFactory, UrlGenerator $urlGenerator, LinkExtension $linkExtension)
     {
         $this->entityFactory = $entityFactory;
         $this->paginationFactory = $paginationFactory;
         $this->formFactory = $formFactory;
         $this->linkExtension = $linkExtension;
+        $this->urlGenerator = $urlGenerator;
         $reflectionClass = new ReflectionClass(LinkExtension::class);
-        $reflectionProperty = $reflectionClass->getProperty('urlGenerator');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($linkExtension, $urlGenerator);
+        $this->reflectionProperty = $reflectionClass->getProperty('urlGenerator');
+        $this->reflectionProperty->setAccessible(true);
     }
 
     public function getDataPagination(int $currentPage, int $count = 10, int $totalCount = 0, int $pageSize = 10): Data
@@ -89,6 +99,7 @@ class DataFactory
     {
         $data = new Data();
         $data->setCurrentAction($action);
+        $this->reflectionProperty->setValue($this->linkExtension, $this->urlGenerator);
         $this->linkExtension->setBaseRoute('FAKE');
         $this->linkExtension->setCurrentUrl($url);
 
