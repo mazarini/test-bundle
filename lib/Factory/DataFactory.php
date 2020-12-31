@@ -87,7 +87,7 @@ class DataFactory
         }
         $data = $this->getData($action, $url);
         $data->setEntity($this->entityFactory->getEntity($id));
-        if ('edit' === $action or 'new' === $action) {
+        if ('edit' === $action || 'new' === $action) {
             $data->setFormView($this->formFactory->getFormView());
         }
         $data->setCurrentAction($action);

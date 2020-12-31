@@ -1,9 +1,11 @@
 
 init :
 	composer self-update
+	symfony self-update
 	composer global update
 	composer update
 	yarn install
+	yarn run encore dev
 
 asset:
 	yarn run encore dev
@@ -18,27 +20,22 @@ security:
 composer:
 	composer -vv validate --strict
 
-stan:
-	if [ ! -d "var/cache/phpunit" ]; then vendor/bin/simple-phpunit install -v; fi
-	phpstan analyse lib src tests --level max
+twig:
+	bin/console lint:twig templates/ lib/Resources/views/
+	twigcs templates -vv
+	twigcs lib/Resources/views -vv
 
 yaml:
 	bin/console lint:yaml config lib/Resources/config phpstan.neon.dist .travis.yml
 
-twig: yaml
-	bin/console lint:twig templates/ lib/Resources/views/
-	twigcs templates -vv
-	twigcs lib/Resources/views -vv
 cs:
-	php-cs-fixer fix
+	~/.config/composer/vendor/bin/php-cs-fixer fix
 
-stanX:
-	if [ ! -d "var/cache/phpunit" ]; then vendor/bin/simple-phpunit install -v; fi
-	phpstan analyse lib src tests --level max
+stan:
+	if [ ! -d "var/cache/phpunit/phpunit-8.3-0" ]; then vendor/bin/simple-phpunit install -v; fi
+	~/.config/composer/vendor/bin/phpstan analyse src tests --level max
 
-validate: security composer twig yaml stanX cs test
-
-stan: stanX test security composer twig yaml cs
+validate: security composer twig yaml stan cs
 
 ############################################
 #          P H P   V E R S I O N           #
@@ -86,12 +83,15 @@ stable:
 ############################################
 
 start:
-	symfony server:start --no-tls
+	symfony server:stop
+	symfony server:start -d
+	symfony server:list
 
 stop:
 	symfony server:stop
+	symfony server:list
 
-restart: stop start
+restart: start
 
 status:
 	symfony server:status
@@ -125,7 +125,6 @@ clean:
 	cp var/data/origine.db var/data/sqlite.db
 
 test:
-	cp var/data/origine.db var/data/sqlite.db
 	bin/phpunit -v
 
 cover-text: clean

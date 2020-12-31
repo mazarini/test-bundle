@@ -35,7 +35,7 @@ abstract class HomeControllerAbstractTest extends WebTestCase
      */
     protected $default;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->client = static::createClient();
         $this->default = Response::HTTP_FOUND;

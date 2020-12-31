@@ -29,7 +29,7 @@ class RepositoryTest extends TestCase
      */
     public $repository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->repository = new Repository();
     }

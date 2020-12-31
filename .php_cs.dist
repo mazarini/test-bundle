@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License.
  */
 
+$bundle = 'test-bundle';
 $fileHeaderCommentFormat = <<<COMMENT
 Copyright (C) 2019-2020 Mazarini <mazarini@protonmail.com>.
 This file is part of mazarini/%s.

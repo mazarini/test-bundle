@@ -30,7 +30,7 @@ abstract class StepControllerAbstractTest extends UrlControllerAbstractTest
      */
     protected $client;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->client = static::createClient();
     }
