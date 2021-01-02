@@ -28,18 +28,7 @@ if ($input->hasParameterOption('--no-debug', true)) {
     putenv('APP_DEBUG='.$_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = '0');
 }
 
-if (Kernel::isOlder(50100)) {
-    $dotEnv = new Dotenv();
-    $method = 'bootEnv';
-} else {
-    $dotEnv = new Dotenv(false);
-    $method = 'loadEnv';
-}
-if (method_exists($dotEnv, $method)) {
-    $dotEnv->$method(dirname(__DIR__).'/.env');
-} else {
-    throw new LogicException(sprintf('Unknow method "%s::%s" : env not initialized',get_class($dotEnv),$method));
-}
+(new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
